@@ -28,14 +28,14 @@ function SetSeagull(props){
 }
 
 const SeagullInfo = ({tasksCompleted, level}) => {
-    var seagull = <SetSeagull lv = {0}/>
+    var seagull = <SetSeagull lv = {level}/>
 
     const [show, setShow] = useState(true);
 
     const handleClose = () => setShow(false);
 
     return (
-        <Modal show={show} onHide={handleClose} style={{textAlign: "center", border: 'none', top:'35%'}} class="justify-content-center">
+        <Modal show={show} onHide={handleClose} style={{textAlign: "center", border: 'none', top:'20%'}} class="justify-content-center">
             
             <Modal.Body style={{border:'none'}}>
                 {seagull}
