@@ -3,8 +3,33 @@ import Task from "./Task";
 import Folder from "./Folder";
 
 export default function TaskPage(props) {
+  // Formatted data from local storage to make mapping easier
   let [taskData, setTaskData] = useState(null);
 
+  /* Functions for manipulating tasks */
+  const addTask = (task) => {
+      // Update local storage
+    let temp = JSON.parse(localStorage.getItem("task_data"));
+    temp.tasks.push(task)
+    localStorage.setItem("task_data", JSON.stringify(temp));
+
+    // Update the formatted data with this task (add to correct folder or group with non-foldered tasks)
+    let tempTaskData = taskData
+    if (task.folder) {
+        tempTaskData.folders[task.folder].tasks.push(task)
+    } else {
+        tempTaskData.otherTasks.push(task)
+    }
+    
+  };
+
+  const editTask = (taskId, task) => {};
+
+  const completeTask = () => {};
+
+  const deleteTask = () => {};
+
+  // Get the task data from local storage
   const getTaskData = () => {
     let temp = JSON.parse(localStorage.getItem("task_data"));
 
