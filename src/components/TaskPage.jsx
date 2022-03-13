@@ -32,7 +32,7 @@ export default function TaskPage(props) {
 
     
     if (taskData) {
-        return <div><Task task={taskData.otherTasks[0]}/></div>
+        return <div style={{paddingLeft: "10%", paddingRight: "10%"}}><Task task={taskData.otherTasks[0]}/></div>
     } else {
         return <div>Loading...</div>
     }
