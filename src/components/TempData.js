@@ -13,6 +13,6 @@ export const data = {
     tasks: [
         {name: "task1", folder: 1},
         {name: "task2", folder: 1},
-        {name: "task3", folder: 2}
+        {name: "task3", folder: null}
     ]
 }
