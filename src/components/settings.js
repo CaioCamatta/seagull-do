@@ -6,6 +6,7 @@ class Settings extends React.component {
     constructor(props) {
         super(props);
 
+        // Defines default settings for the application.
         let default_settings = {
             dark_mode: false,
             week_starts_on: "Monday",
@@ -16,13 +17,16 @@ class Settings extends React.component {
             seagull_scream_disabled: false                
         };
 
+        // Stores settings in the state.
         this.state = default_settings;
 
         // If no settings file exists, create it with default parameters.
         if (localStorage.getItem("seagull_do_settings") === null) {
             localStorage.setItem("seagull_do_settings", JSON.stringify(default_settings));
-        } else {
-            this.state = localStorage.getItem("seagull_do_settings");
+        }
+        // Otherwise, get the settings from local storage and save it to the component state.
+        else {
+            this.state = JSON.parse(localStorage.getItem("seagull_do_settings"));
         }
         
     }
