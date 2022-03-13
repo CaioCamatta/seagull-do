@@ -1,4 +1,6 @@
 import component from react;
+import { BsToggleOff } from "@react-icons/all-files/bs/BsToggleOff"
+import { BsToggleOn } from "@react-icons/all-files/bs/BsToggleOn"
 
 class Settings extends React.component {
 
@@ -40,4 +42,11 @@ class Settings extends React.component {
     toggleSeagullScream = () => this.state[seagull_scream_disabled] != this.state[seagull_scream_disabled];
 
     render() { <h1>Settings</h1>}
+}
+
+
+function Toggle(props) {
+    return (
+        <p>Hi</p>
+    );
 }
