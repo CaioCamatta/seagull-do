@@ -33,8 +33,12 @@ export default function TaskPage(props) {
   if (taskData) {
     return (
       <div style={{ paddingLeft: "10%", paddingRight: "10%" }}>
-        <Folder folder={taskData.folders[1]} />
-        <Task task={taskData.otherTasks[0]} />
+        {Object.keys(taskData.folders).map((key) => {
+          return <Folder key={key} folder={taskData.folders[key]} />;
+        })}
+        {taskData.otherTasks.map((task, index) => {
+          return <Task key={index} task={task} />;
+        })}
       </div>
     );
   } else {
