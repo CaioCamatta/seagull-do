@@ -32,10 +32,14 @@ export default class Settings extends React.Component {
         // If no settings file exists, create it with default parameters.
         if (localStorage.getItem("seagull_settings") === null) {
             localStorage.setItem("seagull_settings", JSON.stringify(default_settings));
+            this.saveSettings();
         }
         // Otherwise, get the settings from local storage and save it to the component state.
         else {
-            this.setState({settings: JSON.parse(localStorage.getItem("seagull_settings"))});
+            this.setState(prevState => ({
+                ...prevState,
+                settings: JSON.parse(localStorage.getItem("seagull_settings"))
+            }));
         }
     }
 
@@ -52,6 +56,8 @@ export default class Settings extends React.Component {
         this.props.onChange();
     }
 
+    // THIS DOESN'T WORK. Now, state does not load right on initialization. Probably not even this but
+    // the nesting definition in the constructor. Uhhh. Tried a whole bunch of stuff but it's not working.
     // Functions for modifying the settings based on user input.
     toggleDarkMode = () => this.setState(prevState => ({
         ...prevState,
@@ -79,7 +85,7 @@ export default class Settings extends React.Component {
                         <p>Toggle Dark Mode</p>
                     </div>
                     <div id="dark_mode_toggle">
-                        <Toggle Toggle={this.state.dark_mode} onClick={() => this.toggleDarkMode()} />
+                        <Toggle Toggle={this.state.settings.dark_mode} onClick={() => this.toggleDarkMode()} />
                     </div>
                 </div>
 
@@ -87,7 +93,7 @@ export default class Settings extends React.Component {
                 <div id="week_starts_on">
                     <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            {this.state.week_starts_on}
+                            {this.state.settings.week_starts_on}
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
@@ -106,7 +112,7 @@ export default class Settings extends React.Component {
                 <div id="default_task_folder">
                     <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            {this.state.default_task_folder}
+                            {this.state.settings.default_task_folder}
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
@@ -121,7 +127,7 @@ export default class Settings extends React.Component {
                 <div id="seagull_icon">
                     <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-seagull">
-                            Seagull {this.state.seagull_icon.charAt(7)}
+                            Seagull {this.state.settings.seagull_icon.charAt(7)}
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
@@ -150,7 +156,7 @@ export default class Settings extends React.Component {
                         <p>Disable Seagull Scream</p>
                     </div>
                     <div id="seagull_scream_toggle">
-                        <Toggle Toggle={this.state.seagull_scream_disabled} onClick={() => this.toggleSeagullScream()} />
+                        <Toggle Toggle={this.state.settings.seagull_scream_disabled} onClick={() => this.toggleSeagullScream()} />
                     </div>
                 </div>
 
