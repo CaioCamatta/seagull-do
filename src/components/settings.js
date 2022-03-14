@@ -53,7 +53,14 @@ export default class Settings extends React.Component {
     }
 
     // Functions for modifying the settings based on user input.
-    toggleDarkMode = () => this.setState(prevState => ({settings.dark_mode: !prevState.settings.dark_mode}), () => this.saveSettings());
+    toggleDarkMode = () => this.setState(prevState => ({
+        ...prevState,
+        settings: {
+            ...prevState.settings,
+            dark_mode: !prevState.settings.dark_mode
+        }
+    }), () => this.saveSettings())
+
     setWeekStartsOn = (day) => this.setState({week_starts_on: day}, () => this.saveSettings());
     setDefaultTaskFolder= (folder_name) => this.setState({default_task_folder: folder_name}, () => this.saveSettings());
     setSeagullIcon = (icon) => this.setState({seagull_icon: icon}, () => this.saveSettings());
