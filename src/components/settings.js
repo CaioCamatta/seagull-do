@@ -2,6 +2,8 @@ import React from 'react';
 import { BsToggleOff } from "react-icons/bs/";
 import { BsToggleOn } from "react-icons/bs/";
 import { Dropdown } from 'react-bootstrap';
+import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
+import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
 
 // Settings Component
 export default class Settings extends React.Component {
@@ -14,14 +16,18 @@ export default class Settings extends React.Component {
             dark_mode: false,
             week_starts_on: "Monday",
             default_task_folder: null,
-            seagull_icon: "default_seagull.jpg",
+            seagull_icon: "seagull1.png",
             tasks_for_level_up: 5,
             seagull_scream: "default_scream.mp3",
             seagull_scream_disabled: false                
         };
 
         // Stores settings in the class's state.
-        this.state = default_settings;
+        this.state = {
+            settings: default_settings,
+            folders: ["folder 1", "folder 2"]
+            // folders: this.getFolders()
+        };
 
         // If no settings file exists, create it with default parameters.
         if (localStorage.getItem("seagull_settings") === null) {
@@ -29,10 +35,16 @@ export default class Settings extends React.Component {
         }
         // Otherwise, get the settings from local storage and save it to the component state.
         else {
-            this.state = JSON.parse(localStorage.getItem("seagull_settings"));
+            this.setState({settings: JSON.parse(localStorage.getItem("seagull_settings"))});
         }
-        
     }
+
+    // Clunky method, called every time folders are displayed just in case new folders have been added.
+    // Event listeners seem overkill?
+    getFolders() {
+        this.setState({folders: localStorage.getItem("task_data").folders});
+    }
+
 
     // Save any changes to settings and callback changes to parent component.
     saveSettings() {
@@ -41,13 +53,13 @@ export default class Settings extends React.Component {
     }
 
     // Functions for modifying the settings based on user input.
-    toggleDarkMode = () => this.setState(prevState => ({dark_mode: !prevState.dark_mode}), () => this.saveSettings());
+    toggleDarkMode = () => this.setState(prevState => ({settings.dark_mode: !prevState.settings.dark_mode}), () => this.saveSettings());
     setWeekStartsOn = (day) => this.setState({week_starts_on: day}, () => this.saveSettings());
-    setDefaultTaskFolder= (folder_name) => this.setState({default_task_folder: folder_name}, () => this.saveSettings);
-    setSeagullIcon = (icon) => this.setState({seagull_icon: icon}, () => this.saveSettings);
-    setTaskForLevelUp = (num) => this.setState({tasks_for_level_up: num}, () => this.saveSettings);
-    setSeagullScream = (scream) => this.setState({seagull_scream: scream}, () => this.saveSettings);
-    toggleSeagullScream = () => this.setState(prevState => ({seagull_scream_disabled: !prevState.seagull_scream_disabled}), () => this.saveSettings);
+    setDefaultTaskFolder= (folder_name) => this.setState({default_task_folder: folder_name}, () => this.saveSettings());
+    setSeagullIcon = (icon) => this.setState({seagull_icon: icon}, () => this.saveSettings());
+    setTaskForLevelUp = (num) => this.setState({tasks_for_level_up: num}, () => this.saveSettings());
+    setSeagullScream = (scream) => this.setState({seagull_scream: scream}, () => this.saveSettings());
+    toggleSeagullScream= () => this.setState(prevState => ({seagull_scream_disabled: !prevState.seagull_scream_disabled}), () => this.saveSettings());
     
     // Render settings.
     render() {
@@ -85,18 +97,44 @@ export default class Settings extends React.Component {
 
                 {/* Default task foulder. */}
                 <div id="default_task_folder">
-                    {/* TODO Get list of folders that exist and display them in a dropdown for the user to select from. */}
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            {this.state.default_task_folder}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            {this.state.folders.map((folder, index) =>
+                                <Dropdown.Item key={index} onClick={() => this.setDefaultTaskFolder(folder)}>{folder}</Dropdown.Item>
+                            )}
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </div>
 
                 {/* Set seagull icon. */}
                 <div id="seagull_icon">
-                    {/* TODO Get list of possible seagull icons that exist and display them in a dropdown for the user to select from. */}
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-seagull">
+                            Seagull {this.state.seagull_icon.charAt(7)}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => this.setSeagullIcon("seagull1.png")}>Seagull 1</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setSeagullIcon("seagull2.png")}>Seagull 2</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setSeagullIcon("seagull3.png")}>Seagull 3</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setSeagullIcon("seagull4.png")}>Seagull 4</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setSeagullIcon("seagull5.png")}>Seagull 5</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </div>
 
                 {/* Set number of tasks for level up. */}
+                <div id="set_num_tasks_for_level">
+                    {/* TODO Add an int selector for the user to pick the number of tasks for level up. */}
+                </div>
+
                 {/* Set seagull scream. */}
                 <div id="set_seagull_scream">
-
+                    {/* TODO Get list of possible seagull screams to let the user choose from. Add a play button, or play on click. */}
                 </div>
 
                 {/* Toggle seagull scream on and off. */}
@@ -119,12 +157,8 @@ export default class Settings extends React.Component {
 // iPhone like toggle button for settings.
 function Toggle(props) {
     if (props.Toggle === true) {
-        return (
-            <BsToggleOn onClick={props.onClick} />
-        );
+        return ( <BsToggleOn onClick={props.onClick} /> );
     } else {
-        return (
-            <BsToggleOff onClick={props.onClick} />
-        );
+        return ( <BsToggleOff onClick={props.onClick} /> );
     }
 }

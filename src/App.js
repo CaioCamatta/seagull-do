@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Button from 'react-bootstrap/Button';
+import Settings from './components/settings.js'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         </a>
         <Button variant="success" className="p-2">Primary</Button>
       </header>
+      <Settings onChange={() => ""} />
     </div>
   );
 }
