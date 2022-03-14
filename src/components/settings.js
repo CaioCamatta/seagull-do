@@ -11,10 +11,6 @@ export default class Settings extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            "loading": true
-        };
-
         // Defines default settings for the application.
         let default_settings = {
             dark_mode: false,
@@ -26,9 +22,11 @@ export default class Settings extends React.Component {
             seagull_scream_disabled: false                
         };
 
+        const settingsFromStorage = localStorage.getItem("seagull_settings")
+
         // If no settings file exists, create it with default parameters.
-        if (localStorage.getItem("seagull_settings") === null) {
-            this.state["settings"] = default_settings;
+        if (settingsFromStorage === null || settingsFromStorage == "{}" || Object.keys(settingsFromStorage) == 0) {
+            this.state = default_settings;
             this.saveSettings();
         }
         // Otherwise, get the settings from local storage and save it to the component state.
@@ -38,8 +36,6 @@ export default class Settings extends React.Component {
 
         //this.state["folders"] = this.getFolders();
         this.state["folders"] = ["folder 1", "folder 2"];
-
-        this.state["loading"] = false;
     }
 
     // Clunky method, called every time folders are displayed just in case new folders have been added.
@@ -77,99 +73,92 @@ export default class Settings extends React.Component {
     
     // Render settings.
     render() {
-
-        if (!this.state.loading) {
-            return (
-                <div>
-                    {/* Dark mode. */}
-                    <div id="dark_mode">
-                        <div id="dark_mode_text">
-                            <p>Toggle Dark Mode</p>
-                        </div>
-                        <div id="dark_mode_toggle">
-                            <Toggle Toggle={this.state.dark_mode} onClick={() => this.toggleDarkMode()} />
-                        </div>
+        return (
+            <div>
+                {/* Dark mode. */}
+                <div id="dark_mode">
+                    <div id="dark_mode_text">
+                        <p>Toggle Dark Mode</p>
                     </div>
-
-                    {/* Week starts on. */}
-                    <div id="week_starts_on">
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                {this.state.week_starts_on}
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item onClick={() => this.setWeekStartsOn("Monday")}>Monday</Dropdown.Item>
-                                <Dropdown.Item onClick={() => this.setWeekStartsOn("Tuesday")}>Tuesday</Dropdown.Item>
-                                <Dropdown.Item onClick={() => this.setWeekStartsOn("Wednesday")}>Wednesday</Dropdown.Item>
-                                <Dropdown.Item onClick={() => this.setWeekStartsOn("Thursday")}>Thursday</Dropdown.Item>
-                                <Dropdown.Item onClick={() => this.setWeekStartsOn("Friday")}>Friday</Dropdown.Item>
-                                <Dropdown.Item onClick={() => this.setWeekStartsOn("Saturday")}>Saturday</Dropdown.Item>
-                                <Dropdown.Item onClick={() => this.setWeekStartsOn("Sunday")}>Sunday</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
+                    <div id="dark_mode_toggle">
+                        <Toggle Toggle={this.state.dark_mode} onClick={() => this.toggleDarkMode()} />
                     </div>
-
-                    {/* Default task foulder. */}
-                    <div id="default_task_folder">
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                {this.state.default_task_folder}
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                {this.state.folders.map((folder, index) =>
-                                    <Dropdown.Item key={index} onClick={() => this.setDefaultTaskFolder(folder)}>{folder}</Dropdown.Item>
-                                )}
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </div>
-
-                    {/* Set seagull icon. */}
-                    <div id="seagull_icon">
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-seagull">
-                                Seagull {this.state.seagull_icon.charAt(7)}
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item onClick={() => this.setSeagullIcon("seagull1.png")}>Seagull 1</Dropdown.Item>
-                                <Dropdown.Item onClick={() => this.setSeagullIcon("seagull2.png")}>Seagull 2</Dropdown.Item>
-                                <Dropdown.Item onClick={() => this.setSeagullIcon("seagull3.png")}>Seagull 3</Dropdown.Item>
-                                <Dropdown.Item onClick={() => this.setSeagullIcon("seagull4.png")}>Seagull 4</Dropdown.Item>
-                                <Dropdown.Item onClick={() => this.setSeagullIcon("seagull5.png")}>Seagull 5</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </div>
-
-                    {/* Set number of tasks for level up. */}
-                    <div id="set_num_tasks_for_level">
-                        {/* TODO Add an int selector for the user to pick the number of tasks for level up. */}
-                    </div>
-
-                    {/* Set seagull scream. */}
-                    <div id="set_seagull_scream">
-                        {/* TODO Get list of possible seagull screams to let the user choose from. Add a play button, or play on click. */}
-                    </div>
-
-                    {/* Toggle seagull scream on and off. */}
-                    <div id="disable_seagull_scream">
-                        <div id="disable_seagull_scream_text">
-                            <p>Disable Seagull Scream</p>
-                        </div>
-                        <div id="seagull_scream_toggle">
-                            <Toggle Toggle={this.state.seagull_scream_disabled} onClick={() => this.toggleSeagullScream()} />
-                        </div>
-                    </div>
-
-
                 </div>
-            );
 
-        }
-        else{
-            return ( <h3>Loading...</h3> );
-        }
+                {/* Week starts on. */}
+                <div id="week_starts_on">
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            {this.state.week_starts_on}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => this.setWeekStartsOn("Monday")}>Monday</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setWeekStartsOn("Tuesday")}>Tuesday</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setWeekStartsOn("Wednesday")}>Wednesday</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setWeekStartsOn("Thursday")}>Thursday</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setWeekStartsOn("Friday")}>Friday</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setWeekStartsOn("Saturday")}>Saturday</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setWeekStartsOn("Sunday")}>Sunday</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>
+
+                {/* Default task foulder. */}
+                <div id="default_task_folder">
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            {this.state.default_task_folder}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            {this.state.folders.map((folder, index) =>
+                                <Dropdown.Item key={index} onClick={() => this.setDefaultTaskFolder(folder)}>{folder}</Dropdown.Item>
+                            )}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>
+
+                {/* Set seagull icon. */}
+                <div id="seagull_icon">
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-seagull">
+                            Seagull {this.state.seagull_icon.charAt(7)}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => this.setSeagullIcon("seagull1.png")}>Seagull 1</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setSeagullIcon("seagull2.png")}>Seagull 2</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setSeagullIcon("seagull3.png")}>Seagull 3</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setSeagullIcon("seagull4.png")}>Seagull 4</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setSeagullIcon("seagull5.png")}>Seagull 5</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>
+
+                {/* Set number of tasks for level up. */}
+                <div id="set_num_tasks_for_level">
+                    {/* TODO Add an int selector for the user to pick the number of tasks for level up. */}
+                </div>
+
+                {/* Set seagull scream. */}
+                <div id="set_seagull_scream">
+                    {/* TODO Get list of possible seagull screams to let the user choose from. Add a play button, or play on click. */}
+                </div>
+
+                {/* Toggle seagull scream on and off. */}
+                <div id="disable_seagull_scream">
+                    <div id="disable_seagull_scream_text">
+                        <p>Disable Seagull Scream</p>
+                    </div>
+                    <div id="seagull_scream_toggle">
+                        <Toggle Toggle={this.state.seagull_scream_disabled} onClick={() => this.toggleSeagullScream()} />
+                    </div>
+                </div>
+
+
+            </div>
+        );
     }
 }
 
