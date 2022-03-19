@@ -18,21 +18,17 @@ const AddFolder = ({ addFolder }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [priority, setPriority] = useState();
-  const [folder, setFolder] = useState();
   const [title, setTitle] = useState();
-  const [date, setDate] = useState();
+  const [color, setColor] = useState();
 
   const handleCreate = () => {
-    let task = {
+    let folder = {
       name: title,
-      folder,
-      priority,
-      date,
-      completed: false,
+      colorName: color.name,
+      colorCode: color.code,
     };
 
-    // addTask(task);
+    addFolder(folder);
     handleClose();
   };
 
@@ -54,7 +50,7 @@ const AddFolder = ({ addFolder }) => {
             <Form.Group className="mb-3">
               <Form.Control
                 type="text"
-                placeholder="Task Title"
+                placeholder="Folder Title"
                 onChange={(e) => {
                   setTitle(e.target.value);
                 }}
@@ -62,21 +58,7 @@ const AddFolder = ({ addFolder }) => {
             </Form.Group>
 
             <InputGroup className="mb-3">
-              <FormControl
-                placeholder="Date"
-                aria-label="Date"
-                type="text"
-                style={{ paddingRight: 5 }}
-                onFocus={(e) => {
-                  e.currentTarget.type = "date";
-                }}
-                onChange={(e) => {
-                  setDate(e.target.value);
-                }}
-              />
-            </InputGroup>
-            <InputGroup className="mb-3">
-              <FolderColorSelect setColor={() => {}} />
+              <FolderColorSelect setColor={setColor} />
             </InputGroup>
           </Form>
         </Modal.Body>

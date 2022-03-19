@@ -16,11 +16,12 @@ const dot = (color = "transparent") => ({
   ":before": {
     backgroundColor: color,
     borderRadius: 10,
+    border: "black 1px solid",
     content: '" "',
     display: "block",
     marginRight: 8,
-    height: 10,
-    width: 10,
+    height: 17,
+    width: 17,
   },
 });
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Task from "./Task";
 import Folder from "./Folder";
 import AddTodo from "../components/AddTodo";
+import AddFolder from "../components/AddFolder";
 
 export default function TaskPage(props) {
   // Formatted data from local storage to make mapping easier
@@ -13,7 +14,7 @@ export default function TaskPage(props) {
   };
 
   /* Functions for handling tasks */
-  const AddFolder = (folder) => {
+  const addFolder = (folder) => {
     // Update local storage
     let temp = JSON.parse(localStorage.getItem("task_data"));
     let max = -1;
@@ -22,6 +23,9 @@ export default function TaskPage(props) {
         max = key;
       }
     }
+
+    max = parseInt(max);
+
     temp.folders[max + 1] = folder;
     localStorage.setItem("task_data", JSON.stringify(temp));
     setTaskData(formatTaskData(temp));
@@ -145,6 +149,7 @@ export default function TaskPage(props) {
           return <Task key={index} task={task} />;
         })}
         <AddTodo addTask={addTask} folders={getFolders()} />
+        <AddFolder addFolder={addFolder} />
       </div>
     );
   } else {

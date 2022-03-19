@@ -4,6 +4,7 @@ import Select, { StylesConfig, components } from "react-select";
 import { GrFlagFill } from "react-icons/gr";
 
 const colourOptions = [
+  { value: "seagul", label: "Seagul Grey", color: "#E8FAFF" },
   { value: "red", label: "Red", color: "#FFC400" },
   { value: "green", label: "Green", color: "#FF8B00" },
   { value: "blue", label: "Blue", color: "#FF5630" },
@@ -16,11 +17,12 @@ const dot = (color = "transparent") => ({
   ":before": {
     backgroundColor: color,
     borderRadius: 10,
+    border: "black 1px solid",
     content: '" "',
     display: "block",
     marginRight: 8,
-    height: 10,
-    width: 10,
+    height: 17,
+    width: 17,
   },
 });
 
@@ -47,7 +49,7 @@ const colourStyles = {
         ? chroma.contrast(color, "white") > 2
           ? "white"
           : "black"
-        : data.color,
+        : "black",
       cursor: isDisabled ? "not-allowed" : "default",
 
       ":active": {
@@ -63,21 +65,8 @@ const colourStyles = {
   input: (styles) => ({ ...styles, ...dot() }),
   placeholder: (styles) => ({ ...styles, ...dot("#ccc") }),
   singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
+  option: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
   // dropDown
-};
-
-const DropdownIndicator = (props) => {
-  let color;
-
-  if (props.hasValue) {
-    color = props.getValue()[0].color;
-  }
-
-  return (
-    <components.DropdownIndicator {...props}>
-      <GrFlagFill color={color} />
-    </components.DropdownIndicator>
-  );
 };
 
 const customStyles = {
@@ -105,10 +94,10 @@ export default ({ setColor }) => (
     placeholder="Select folder color..."
     options={colourOptions}
     styles={colourStyles}
-    components={{ DropdownIndicator, IndicatorSeparator: () => null }}
+    components={{ IndicatorSeparator: () => null }}
     isSearchable={false}
-    onChange={({ value }) => {
-      setColor(value);
+    onChange={(data) => {
+      setColor({ name: data.value, code: data.color });
     }}
   />
 );
