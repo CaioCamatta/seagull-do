@@ -15,10 +15,13 @@ h1 {
   z-index: 3;
 }
 
-
+.container {
+  position: absolute;
+  text-align: center;
+}
 
 .bird {
-  background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/174479/bird-cells-new.svg);
+  background-image: url("../image/bird-cells-new.svg");
   background-size: auto 100%;
   width: 88px;
   height: 125px;
@@ -39,10 +42,10 @@ h1 {
 
 
 .bird-container {
-  position: absolute;
+  position: relative;
   top: 20%;
   left: -10%;
-  transform: scale(0) translateX(-10vw);
+  transform: scale(4) translateX(-5vw);
   will-change: transform;
   -webkit-animation-name: fly-right-one;
           animation-name: fly-right-one;
@@ -52,8 +55,8 @@ h1 {
           animation-iteration-count: infinite;
 }
 .bird-container--one {
-  -webkit-animation-duration: 5s;
-          animation-duration: 5s;
+  -webkit-animation-duration: 3s;
+          animation-duration: 3s;
   -webkit-animation-delay: 0;
           animation-delay: 0;
 }
@@ -98,79 +101,37 @@ h1 {
 }
 @keyframes fly-right-one {
   0% {
-    transform: scale(0.3) translateX(-10vw);
+    transform: scale(2) translateX(-10vw);
   }
   10% {
-    transform: translateY(2vh) translateX(10vw) scale(0.4);
+    transform: translateY(0vh) translateX(10vw) scale(1.5);
   }
   20% {
-    transform: translateY(0vh) translateX(30vw) scale(0.5);
+    transform: translateY(4em) translateX(20vw) scale(1.5);
   }
   30% {
-    transform: translateY(4vh) translateX(50vw) scale(0.6);
+    transform: translateY(8em) translateX(30vw) scale(1.5);
   }
   40% {
-    transform: translateY(2vh) translateX(70vw) scale(0.6);
+    transform: translateY(12em) translateX(40vw) scale(1.5);
   }
   50% {
-    transform: translateY(0vh) translateX(90vw) scale(0.6);
+    transform: translateY(12em) translateX(50vw) scale(1.5);
   }
   60% {
-    transform: translateY(0vh) translateX(110vw) scale(0.6);
+    transform: translateY(12em) translateX(55vw) scale(1.5);
+  }
+  70%{
+    transform: translateY(8em) translateX(65vw) scale(1.5);
+  }
+  80%{
+    transform: translateY(4em) translateX(75vw) scale(1.5);
+  }
+  90%{
+    transform: translateY(1em) translateX(90vw) scale(1.5);
   }
   100% {
-    transform: translateY(0vh) translateX(110vw) scale(0.6);
+    transform: translateY(0vh) translateX(130vw) scale(1.5);
   }
 }
-@-webkit-keyframes fly-right-two {
-  0% {
-    transform: translateY(-2vh) translateX(-10vw) scale(0.5);
-  }
-  10% {
-    transform: translateY(0vh) translateX(10vw) scale(0.4);
-  }
-  20% {
-    transform: translateY(-4vh) translateX(30vw) scale(0.6);
-  }
-  30% {
-    transform: translateY(1vh) translateX(50vw) scale(0.45);
-  }
-  40% {
-    transform: translateY(-2.5vh) translateX(70vw) scale(0.5);
-  }
-  50% {
-    transform: translateY(0vh) translateX(90vw) scale(0.45);
-  }
-  51% {
-    transform: translateY(0vh) translateX(110vw) scale(0.45);
-  }
-  100% {
-    transform: translateY(0vh) translateX(110vw) scale(0.45);
-  }
-}
-@keyframes fly-right-two {
-  0% {
-    transform: translateY(-2vh) translateX(-10vw) scale(0.5);
-  }
-  10% {
-    transform: translateY(0vh) translateX(10vw) scale(0.4);
-  }
-  20% {
-    transform: translateY(-4vh) translateX(30vw) scale(0.6);
-  }
-  30% {
-    transform: translateY(1vh) translateX(50vw) scale(0.45);
-  }
-  40% {
-    transform: translateY(-2.5vh) translateX(70vw) scale(0.5);
-  }
-  50% {
-    transform: translateY(0vh) translateX(90vw) scale(0.45);
-  }
-  51% {
-    transform: translateY(0vh) translateX(110vw) scale(0.45);
-  }
-  100% {
-    transform: translateY(0vh) translateX(110vw) scale(0.45);
-  }
-}
+
