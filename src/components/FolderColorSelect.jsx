@@ -5,9 +5,11 @@ import { GrFlagFill } from "react-icons/gr";
 
 const colourOptions = [
   { value: "seagul", label: "Seagul Grey", color: "#E8FAFF" },
-  { value: "red", label: "Red", color: "#FFC400" },
-  { value: "green", label: "Green", color: "#FF8B00" },
-  { value: "blue", label: "Blue", color: "#FF5630" },
+  { value: "red", label: "Red", color: "#D63031" },
+  { value: "green", label: "Green", color: "#00b894" },
+  { value: "blue", label: "Blue", color: "#0984e3" },
+  { value: "orange", label: "Orange", color: "#e17055" },
+  { value: "violet", label: "Violet", color: "#a29bfe" },
 ];
 
 const dot = (color = "transparent") => ({

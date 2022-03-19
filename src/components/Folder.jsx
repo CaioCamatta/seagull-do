@@ -1,6 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import { BsFolder, BsFolder2Open } from "react-icons/bs";
+import {
+  FaFolder,
+  FaRegFolder,
+  FaFolderOpen,
+  FaRegFolderOpen,
+} from "react-icons/fa";
 import Task from "./Task";
 
 export default function Folder(props) {
@@ -15,9 +21,23 @@ export default function Folder(props) {
         }}
       >
         {!openDropdown ? (
-          <BsFolder size={40} style={{ marginRight: "17px" }} />
+          props.folder?.colorCode ? (
+            <FaFolder
+              size={40}
+              style={{ marginRight: "17px" }}
+              color={props.folder?.colorCode}
+            />
+          ) : (
+            <FaRegFolder size={40} style={{ marginRight: "17px" }} />
+          )
+        ) : props.folder?.colorCode ? (
+          <FaFolderOpen
+            size={40}
+            style={{ marginRight: "17px" }}
+            color={props.folder?.colorCode}
+          />
         ) : (
-          <BsFolder2Open size={40} style={{ marginRight: "17px" }} />
+          <FaRegFolderOpen size={40} style={{ marginRight: "17px" }} />
         )}
 
         <span style={{ fontSize: "24px" }}>
