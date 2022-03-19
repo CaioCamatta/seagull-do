@@ -47,9 +47,22 @@ export default function TaskPage(props) {
   const addTask = (task) => {
     // Update local storage
     let temp = JSON.parse(localStorage.getItem("task_data"));
+    task = { ...task, id: getMaxId() + 1 };
     temp.tasks.push(task);
     localStorage.setItem("task_data", JSON.stringify(temp));
     setTaskData(formatTaskData(temp));
+  };
+
+  const getMaxId = () => {
+    let temp = JSON.parse(localStorage.getItem("task_data"));
+
+    console.log({ temp });
+
+    let max = -1;
+    for (let task of temp.tasks) {
+      max = Math.max(max, task.id);
+    }
+    return max;
   };
 
   const editTask = (taskId, task) => {
@@ -131,7 +144,7 @@ export default function TaskPage(props) {
         {taskData.otherTasks.map((task, index) => {
           return <Task key={index} task={task} />;
         })}
-        <AddTodo />
+        <AddTodo addTask={addTask} folders={getFolders()} />
       </div>
     );
   } else {

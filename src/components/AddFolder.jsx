@@ -10,10 +10,9 @@ import {
 } from "react-bootstrap";
 import { GrAddCircle } from "react-icons/gr";
 import { ImCheckmark, ImCross } from "react-icons/im";
-import TodoFolderSelect from "./TodoFolderSelect";
-import TodoPrioritySelect from "./TodoPrioritySelect";
+import FolderColorSelect from "./FolderColorSelect";
 
-const AddTodo = ({ addTask, folders }) => {
+const AddFolder = ({ addFolder }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -33,7 +32,7 @@ const AddTodo = ({ addTask, folders }) => {
       completed: false,
     };
 
-    addTask(task);
+    // addTask(task);
     handleClose();
   };
 
@@ -48,7 +47,7 @@ const AddTodo = ({ addTask, folders }) => {
 
       <Modal show={show} onHide={handleClose} fullscreen>
         <Modal.Header>
-          <Modal.Title>Add Todo</Modal.Title>
+          <Modal.Title>Add Folder</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -77,10 +76,7 @@ const AddTodo = ({ addTask, folders }) => {
               />
             </InputGroup>
             <InputGroup className="mb-3">
-              <TodoFolderSelect setFolder={setFolder} folders={folders} />
-            </InputGroup>
-            <InputGroup className="mb-3">
-              <TodoPrioritySelect setPriority={setPriority} />
+              <FolderColorSelect setColor={() => {}} />
             </InputGroup>
           </Form>
         </Modal.Body>
@@ -120,4 +116,4 @@ const AddTodo = ({ addTask, folders }) => {
   );
 };
 
-export default AddTodo;
+export default AddFolder;

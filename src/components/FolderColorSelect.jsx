@@ -4,9 +4,9 @@ import Select, { StylesConfig, components } from "react-select";
 import { GrFlagFill } from "react-icons/gr";
 
 const colourOptions = [
-  { value: "low", label: "Low", color: "#FFC400" },
-  { value: "medium", label: "Medium", color: "#FF8B00" },
-  { value: "high", label: "High", color: "#FF5630" },
+  { value: "red", label: "Red", color: "#FFC400" },
+  { value: "green", label: "Green", color: "#FF8B00" },
+  { value: "blue", label: "Blue", color: "#FF5630" },
 ];
 
 const dot = (color = "transparent") => ({
@@ -99,16 +99,16 @@ const customStyles = {
   },
 };
 
-export default ({ setPriority }) => (
+export default ({ setColor }) => (
   <Select
     // defaultValue={colourOptions[0]}
-    placeholder="Select Priority..."
+    placeholder="Select folder color..."
     options={colourOptions}
     styles={colourStyles}
     components={{ DropdownIndicator, IndicatorSeparator: () => null }}
     isSearchable={false}
     onChange={({ value }) => {
-      setPriority(value);
+      setColor(value);
     }}
   />
 );

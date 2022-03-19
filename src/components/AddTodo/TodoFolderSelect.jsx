@@ -1,18 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
-const TodoFolderSelect = () => {
-  // for now hardcoded
-  const folders = [
-    { value: "folder1", label: "Folder 1 " },
-    { value: "folder2", label: "Folder 2" },
-    { value: "folder3", label: "Folder 3 " },
-    { value: "folder4", label: "Folder 4" },
-  ];
+const TodoFolderSelect = ({ setFolder, folders }) => {
+  const [folderOptions, setFolderOptions] = useState();
+
+  useEffect(() => {
+    const temp = [];
+
+    for (let key of Object.keys(folders)) {
+      temp.push({ value: key, label: folders[key].name });
+    }
+
+    setFolderOptions(temp);
+  }, [folders]);
 
   return (
     <Select
-      options={folders}
+      options={folderOptions}
       placeholder="Folder"
       components={{ IndicatorSeparator: () => null }}
       isSearchable={false}
@@ -21,6 +25,9 @@ const TodoFolderSelect = () => {
           ...provided,
           width: "100%",
         }),
+      }}
+      onChange={({ value }) => {
+        setFolder(value);
       }}
     />
   );
