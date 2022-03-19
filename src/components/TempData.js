@@ -11,8 +11,8 @@ export const data = {
         }
     },
     tasks: [
-        {name: "task1", folder: 1},
-        {name: "task2", folder: 1},
-        {name: "task3", folder: null}
+        {id: 1, name: "task1", folder: 1, completed: false},
+        {id: 2, name: "task2", folder: 1, completed: false},
+        {id: 3, name: "task3", folder: null, completed: false}
     ]
 }
