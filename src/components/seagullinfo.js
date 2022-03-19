@@ -7,6 +7,7 @@ import seagull3 from '../image/seagull3.png'
 import seagull4 from '../image/seagull4.png'
 import seagull5 from '../image/seagull5.png'
 
+import SeagullFly from './seagullFly';
 function SetSeagull(props){
     if (props.lv === 0){
         return <img src={seagull1} alt="..."  className='img-thumbnail' style={{ width: '8rem', height: ' 8rem', border: 'none' }}/>
@@ -28,7 +29,7 @@ function SetSeagull(props){
 }
 
 const SeagullInfo = ({tasksCompleted, level}) => {
-    var seagull = <SetSeagull lv = {level}/>
+    var seagull = <SetSeagull lv = {15}/>
 
     const [show, setShow] = useState(true);
 
@@ -42,7 +43,7 @@ const SeagullInfo = ({tasksCompleted, level}) => {
                 <h2 style={{paddingTop:"0.5em"}}>Level {level}</h2>
                 <p>Tasks Completed: {tasksCompleted}</p>
             </Modal.Body>
-           
+            <SeagullFly />
         </Modal>
     )
 }

@@ -52,8 +52,8 @@ h1 {
           animation-iteration-count: infinite;
 }
 .bird-container--one {
-  -webkit-animation-duration: 15s;
-          animation-duration: 15s;
+  -webkit-animation-duration: 5s;
+          animation-duration: 5s;
   -webkit-animation-delay: 0;
           animation-delay: 0;
 }
