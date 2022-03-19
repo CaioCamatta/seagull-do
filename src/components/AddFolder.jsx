@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import { GrAddCircle } from "react-icons/gr";
 import { ImCheckmark, ImCross } from "react-icons/im";
+import { FiFolderPlus } from "react-icons/fi";
 import FolderColorSelect from "./FolderColorSelect";
 
 const AddFolder = ({ addFolder }) => {
@@ -38,7 +39,7 @@ const AddFolder = ({ addFolder }) => {
         onClick={handleShow}
         style={{ backgroundColor: "transparent", border: "transparent" }}
       >
-        <GrAddCircle size={40} />
+        <FiFolderPlus size={40} color="black" />
       </Button>
 
       <Modal show={show} onHide={handleClose} fullscreen>
