@@ -15,6 +15,7 @@ import {
 } from "react-bootstrap";
 import { GrUserSettings } from "react-icons/gr";
 import { BsFillGearFill } from "react-icons/bs";
+import seagull from "../images/main-seagull.png";
 
 export default function TaskPage(props) {
   // Formatted data from local storage to make mapping easier
@@ -190,7 +191,9 @@ const Header = () => {
         <Col xs={8} style={{ textAlign: "center" }}>
           <span style={{ fontSize: 24 }}> Seagull - Do</span>
         </Col>
-        <Col xs={2}></Col>
+        <Col xs={2}>
+          <img src={seagull} width={40} />
+        </Col>
       </Row>
     </Navbar>
   );
