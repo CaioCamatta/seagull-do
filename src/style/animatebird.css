@@ -113,25 +113,26 @@ h1 {
     transform: translateY(8em) translateX(30vw) scale(1.5);
   }
   40% {
-    transform: translateY(12em) translateX(40vw) scale(1.5);
+    transform: translateY(11em) translateX(40vw) scale(1.5);
   }
   50% {
     transform: translateY(12em) translateX(50vw) scale(1.5);
   }
+
   60% {
-    transform: translateY(12em) translateX(55vw) scale(1.5);
+    transform: translateY(11em) translateX(60vw) scale(1.5);
   }
   70%{
-    transform: translateY(8em) translateX(65vw) scale(1.5);
+    transform: translateY(8em) translateX(70vw) scale(1.5);
   }
   80%{
-    transform: translateY(4em) translateX(75vw) scale(1.5);
+    transform: translateY(4em) translateX(80vw) scale(1.5);
   }
   90%{
-    transform: translateY(1em) translateX(90vw) scale(1.5);
+    transform: translateY(0em) translateX(95vw) scale(1.5);
   }
   100% {
-    transform: translateY(0vh) translateX(130vw) scale(1.5);
+    transform: translateY(-10vh) translateX(120vw) scale(1.5);
   }
 }
 
