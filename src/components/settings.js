@@ -3,12 +3,23 @@ import { BsToggleOff } from "react-icons/bs/";
 import { BsToggleOn } from "react-icons/bs/";
 import { IoIosArrowUp } from "react-icons/io/";
 import { IoIosArrowDown } from "react-icons/io/";
-import { Dropdown } from "react-bootstrap";
-import { Container } from "react-bootstrap";
-import { Row } from "react-bootstrap";
-import { Col } from "react-bootstrap";
 import "./settings.css";
 import TodoFolderSelect from "./AddTodo/TodoFolderSelect";
+import {
+  Button,
+  Form,
+  Modal,
+  InputGroup,
+  FormControl,
+  Row,
+  Col,
+  Navbar,
+  Dropdown,
+  Container,
+} from "react-bootstrap";
+import seagull from "../images/main-seagull.png";
+import { ImCross } from "react-icons/im";
+import { SETTINGS_PAGE, TASK_PAGE } from "../App";
 
 // Settings Component
 export default class Settings extends React.Component {
@@ -134,234 +145,246 @@ export default class Settings extends React.Component {
   render() {
     console.log("state", this.state);
     return (
-      <Container>
-        <h3>General</h3>
+      <div>
+        <Header setPage={this.props.setPage} />
+        <div style={{ borderBottom: "solid black 4px", marginBottom: 10 }} />
+        <Container>
+          <h3>General</h3>
 
-        {/* Dark mode. */}
-        <Row id="dark_mode" className="settings-item">
-          <Col id="dark_mode_text">
-            <span>Toggle Dark Mode:</span>
-          </Col>
-          <Col id="dark_mode_toggle">
-            <Toggle
-              Toggle={this.state.dark_mode}
-              onClick={() => this.toggleDarkMode()}
-            />
-          </Col>
-        </Row>
+          {/* Dark mode. */}
+          <Row id="dark_mode" className="settings-item">
+            <Col id="dark_mode_text">
+              <span>Toggle Dark Mode:</span>
+            </Col>
+            <Col id="dark_mode_toggle">
+              <Toggle
+                Toggle={this.state.dark_mode}
+                onClick={() => this.toggleDarkMode()}
+              />
+            </Col>
+          </Row>
 
-        {/* Week starts on. */}
-        <Row id="week_starts_on" className="settings-item">
-          <Col id="week_starts_on_text">
-            <span>Week Starts On:</span>
-          </Col>
-          <Col id="week_starts_on_select">
-            <Dropdown>
-              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                {this.state.week_starts_on}
-              </Dropdown.Toggle>
+          {/* Week starts on. */}
+          <Row id="week_starts_on" className="settings-item">
+            <Col id="week_starts_on_text">
+              <span>Week Starts On:</span>
+            </Col>
+            <Col id="week_starts_on_select">
+              <Dropdown>
+                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                  {this.state.week_starts_on}
+                </Dropdown.Toggle>
 
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => this.setWeekStartsOn("Monday")}>
-                  Monday
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => this.setWeekStartsOn("Tuesday")}>
-                  Tuesday
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => this.setWeekStartsOn("Wednesday")}
-                >
-                  Wednesday
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => this.setWeekStartsOn("Thursday")}>
-                  Thursday
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => this.setWeekStartsOn("Friday")}>
-                  Friday
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => this.setWeekStartsOn("Saturday")}>
-                  Saturday
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => this.setWeekStartsOn("Sunday")}>
-                  Sunday
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-        </Row>
-
-        {/* Default task foulder. */}
-        <div className="settings-item">
-          <TodoFolderSelect
-            folders={this.state.folders}
-            setFolder={(value) => this.setDefaultTaskFolder(value)}
-            hideBorder={true}
-          />
-        </div>
-        <Row id="default_task_folder" className="settings-item">
-          <Col id="default_task_folder_text">
-            <span>Default Task Folder:</span>
-          </Col>
-          <Col id="default_task_folder_select">
-            <Dropdown>
-              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                {this.state.default_task_folder === null
-                  ? "None"
-                  : this.state.default_task_folder}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => this.setDefaultTaskFolder(null)}>
-                  None
-                </Dropdown.Item>
-                {this.state.folders.map((folder, index) => (
-                  <Dropdown.Item
-                    key={index}
-                    onClick={() => this.setDefaultTaskFolder(folder)}
-                  >
-                    {folder.name}
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => this.setWeekStartsOn("Monday")}>
+                    Monday
                   </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-        </Row>
+                  <Dropdown.Item
+                    onClick={() => this.setWeekStartsOn("Tuesday")}
+                  >
+                    Tuesday
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => this.setWeekStartsOn("Wednesday")}
+                  >
+                    Wednesday
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => this.setWeekStartsOn("Thursday")}
+                  >
+                    Thursday
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => this.setWeekStartsOn("Friday")}>
+                    Friday
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => this.setWeekStartsOn("Saturday")}
+                  >
+                    Saturday
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => this.setWeekStartsOn("Sunday")}>
+                    Sunday
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+          </Row>
 
-        <br />
-        <h3>Seagull</h3>
-
-        {/* Set seagull icon. */}
-        <Row id="seagull_icon" className="settings-item">
-          <Col id="seagull_icon_text">
-            <span>Select Seagull Icon:</span>
-          </Col>
-          <Col id="seagull_icon_select">
-            <Dropdown>
-              <Dropdown.Toggle variant="secondary" id="dropdown-seagull">
-                Seagull {this.state.seagull_icon.charAt(7)}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  onClick={() => this.setSeagullIcon("seagull1.png")}
-                >
-                  Seagull 1 &nbsp;&nbsp;&nbsp;
-                  <img
-                    className="seagull-icon"
-                    src={require("../images/seagull1.png")}
-                  />
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => this.setSeagullIcon("seagull2.png")}
-                >
-                  Seagull 2 &nbsp;&nbsp;&nbsp;
-                  <img
-                    className="seagull-icon"
-                    src={require("../images/seagull2.png")}
-                  />
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => this.setSeagullIcon("seagull3.png")}
-                >
-                  Seagull 3 &nbsp;&nbsp;&nbsp;
-                  <img
-                    className="seagull-icon"
-                    src={require("../images/seagull3.png")}
-                  />
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => this.setSeagullIcon("seagull4.png")}
-                >
-                  Seagull 4 &nbsp;&nbsp;&nbsp;
-                  <img
-                    className="seagull-icon"
-                    src={require("../images/seagull4.png")}
-                  />
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => this.setSeagullIcon("seagull5.png")}
-                >
-                  Seagull 5 &nbsp;&nbsp;&nbsp;
-                  <img
-                    className="seagull-icon"
-                    src={require("../images/seagull5.png")}
-                  />
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-        </Row>
-
-        {/* Set number of tasks for level up. */}
-        <Row id="set_num_tasks_for_level" className="settings-item">
-          <Col id="set_num_tasks_text">
-            <span>Tasks For Level Up:</span>
-          </Col>
-          <Col id="set_num_tasks_input">
-            <div className="d-flex justify-content-center">
-              <span>{this.state.tasks_for_level_up} &nbsp;&nbsp;</span>
-              <div className="d-flex flex-column">
-                <IoIosArrowUp onClick={() => this.incrementNumTasks()} />
-                <IoIosArrowDown onClick={() => this.decrementNumTasks()} />
-              </div>
-            </div>
-          </Col>
-        </Row>
-
-        {/* Set seagull scream. */}
-        <Row id="set_seagull_scream" className="settings-item">
-          <Col id="set_seagull_scream_task">
-            <span>Choose Seagull Scream</span>
-          </Col>
-          <Col id="set_seagull_scream_select">
-            <Dropdown>
-              <Dropdown.Toggle variant="secondary" id="dropdown-scream">
-                Scream {this.state.seagull_scream.charAt(6)}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  onClick={() => {
-                    this.setSeagullScream("scream1.mp3");
-                    this.playScream();
-                  }}
-                >
-                  Scream 1
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => {
-                    this.setSeagullScream("scream2.mp3");
-                    this.playScream();
-                  }}
-                >
-                  Scream 2
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => {
-                    this.setSeagullScream("scream3.mp3");
-                    this.playScream();
-                  }}
-                >
-                  Scream 3
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-        </Row>
-
-        {/* Toggle seagull scream on and off. */}
-        <Row id="disable_seagull_scream" className="settings-item">
-          <Col id="disable_seagull_scream_text">
-            <span>Disable Seagull Scream:</span>
-          </Col>
-          <Col id="seagull_scream_toggle">
-            <Toggle
-              Toggle={this.state.seagull_scream_disabled}
-              onClick={() => this.toggleSeagullScream()}
+          {/* Default task foulder. */}
+          <div className="settings-item">
+            <TodoFolderSelect
+              folders={this.state.folders}
+              setFolder={(value) => this.setDefaultTaskFolder(value)}
+              hideBorder={true}
             />
-          </Col>
-        </Row>
-      </Container>
+          </div>
+          <Row id="default_task_folder" className="settings-item">
+            <Col id="default_task_folder_text">
+              <span>Default Task Folder:</span>
+            </Col>
+            <Col id="default_task_folder_select">
+              <Dropdown>
+                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                  {this.state.default_task_folder === null
+                    ? "None"
+                    : this.state.default_task_folder}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    onClick={() => this.setDefaultTaskFolder(null)}
+                  >
+                    None
+                  </Dropdown.Item>
+                  {this.state.folders.map((folder, index) => (
+                    <Dropdown.Item
+                      key={index}
+                      onClick={() => this.setDefaultTaskFolder(folder)}
+                    >
+                      {folder.name}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+          </Row>
+
+          <br />
+          <h3>Seagull</h3>
+
+          {/* Set seagull icon. */}
+          <Row id="seagull_icon" className="settings-item">
+            <Col id="seagull_icon_text">
+              <span>Select Seagull Icon:</span>
+            </Col>
+            <Col id="seagull_icon_select">
+              <Dropdown>
+                <Dropdown.Toggle variant="secondary" id="dropdown-seagull">
+                  Seagull {this.state.seagull_icon.charAt(7)}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    onClick={() => this.setSeagullIcon("seagull1.png")}
+                  >
+                    Seagull 1 &nbsp;&nbsp;&nbsp;
+                    <img
+                      className="seagull-icon"
+                      src={require("../images/seagull1.png")}
+                    />
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => this.setSeagullIcon("seagull2.png")}
+                  >
+                    Seagull 2 &nbsp;&nbsp;&nbsp;
+                    <img
+                      className="seagull-icon"
+                      src={require("../images/seagull2.png")}
+                    />
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => this.setSeagullIcon("seagull3.png")}
+                  >
+                    Seagull 3 &nbsp;&nbsp;&nbsp;
+                    <img
+                      className="seagull-icon"
+                      src={require("../images/seagull3.png")}
+                    />
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => this.setSeagullIcon("seagull4.png")}
+                  >
+                    Seagull 4 &nbsp;&nbsp;&nbsp;
+                    <img
+                      className="seagull-icon"
+                      src={require("../images/seagull4.png")}
+                    />
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => this.setSeagullIcon("seagull5.png")}
+                  >
+                    Seagull 5 &nbsp;&nbsp;&nbsp;
+                    <img
+                      className="seagull-icon"
+                      src={require("../images/seagull5.png")}
+                    />
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+          </Row>
+
+          {/* Set number of tasks for level up. */}
+          <Row id="set_num_tasks_for_level" className="settings-item">
+            <Col id="set_num_tasks_text">
+              <span>Tasks For Level Up:</span>
+            </Col>
+            <Col id="set_num_tasks_input">
+              <div className="d-flex justify-content-center">
+                <span>{this.state.tasks_for_level_up} &nbsp;&nbsp;</span>
+                <div className="d-flex flex-column">
+                  <IoIosArrowUp onClick={() => this.incrementNumTasks()} />
+                  <IoIosArrowDown onClick={() => this.decrementNumTasks()} />
+                </div>
+              </div>
+            </Col>
+          </Row>
+
+          {/* Set seagull scream. */}
+          <Row id="set_seagull_scream" className="settings-item">
+            <Col id="set_seagull_scream_task">
+              <span>Choose Seagull Scream</span>
+            </Col>
+            <Col id="set_seagull_scream_select">
+              <Dropdown>
+                <Dropdown.Toggle variant="secondary" id="dropdown-scream">
+                  Scream {this.state.seagull_scream.charAt(6)}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    onClick={() => {
+                      this.setSeagullScream("scream1.mp3");
+                      this.playScream();
+                    }}
+                  >
+                    Scream 1
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => {
+                      this.setSeagullScream("scream2.mp3");
+                      this.playScream();
+                    }}
+                  >
+                    Scream 2
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => {
+                      this.setSeagullScream("scream3.mp3");
+                      this.playScream();
+                    }}
+                  >
+                    Scream 3
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+          </Row>
+
+          {/* Toggle seagull scream on and off. */}
+          <Row id="disable_seagull_scream" className="settings-item">
+            <Col id="disable_seagull_scream_text">
+              <span>Disable Seagull Scream:</span>
+            </Col>
+            <Col id="seagull_scream_toggle">
+              <Toggle
+                Toggle={this.state.seagull_scream_disabled}
+                onClick={() => this.toggleSeagullScream()}
+              />
+            </Col>
+          </Row>
+        </Container>
+      </div>
     );
   }
 }
@@ -374,3 +397,26 @@ function Toggle(props) {
     return <BsToggleOff className="icon-size" onClick={props.onClick} />;
   }
 }
+
+const Header = ({ setPage }) => {
+  return (
+    <Navbar>
+      <Row style={{ width: "100%", padding: 0 }}>
+        <Col xs={2}>
+          <Button
+            style={{ backgroundColor: "transparent", border: "transparent" }}
+            onClick={() => setPage(TASK_PAGE)}
+          >
+            <ImCross size={30} color="black" />
+          </Button>
+        </Col>
+        <Col xs={8} style={{ textAlign: "center" }}>
+          <span style={{ fontSize: 24 }}> Seagull - Do</span>
+        </Col>
+        <Col xs={2}>
+          <img src={seagull} width={40} />
+        </Col>
+      </Row>
+    </Navbar>
+  );
+};

@@ -39,7 +39,7 @@ function App() {
   }
 
   if (page === SETTINGS_PAGE) {
-    return <Settings onChange={fetchSettings} />;
+    return <Settings onChange={fetchSettings} setPage={setPage} />;
   }
 
   return <div>PAGE NOT FOUND</div>;
