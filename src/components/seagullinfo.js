@@ -42,7 +42,6 @@ const SeagullInfo = ({tasksCompleted, level}) => {
                 <h2 style={{paddingTop:"0.5em"}}>Level {level}</h2>
                 <p>Tasks Completed: {tasksCompleted}</p>
             </Modal.Body>
-           
         </Modal>
     )
 }
