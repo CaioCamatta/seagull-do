@@ -28,7 +28,7 @@ function SetSeagull(props){
 }
 
 const SeagullInfo = ({tasksCompleted, level}) => {
-    var seagull = <SetSeagull lv = {15}/>
+    var seagull = <SetSeagull lv = {level}/>
 
     const [show, setShow] = useState(true);
 
