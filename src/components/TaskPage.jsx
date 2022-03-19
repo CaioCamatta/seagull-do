@@ -7,48 +7,115 @@ export default function TaskPage(props) {
   // Formatted data from local storage to make mapping easier
   let [taskData, setTaskData] = useState(null);
 
-  /* Functions for manipulating tasks */
+  /* Functions for handling folders */
+  const getFolders = () => {
+    return taskData.folders;
+  };
+
+  /* Functions for handling tasks */
+  const AddFolder = (folder) => {
+    // Update local storage
+    let temp = JSON.parse(localStorage.getItem("task_data"));
+    let max = -1;
+    for (const key in temp.folders) {
+      if (key > max) {
+        max = key;
+      }
+    }
+    temp.folders[max + 1] = folder;
+    localStorage.setItem("task_data", JSON.stringify(temp));
+    setTaskData(formatTaskData(temp));
+  };
+
+  const editFolder = (folderId, folder) => {
+    // Update local storage
+    let temp = JSON.parse(localStorage.getItem("task_data"));
+    temp.folders[folderId] = folder;
+    localStorage.setItem("task_data", JSON.stringify(temp));
+    setTaskData(formatTaskData(temp));
+  };
+
+  const deleteFolder = (taskId) => {
+    // Update local storage
+    let temp = JSON.parse(localStorage.getItem("task_data"));
+    delete temp.folders[taskId];
+    localStorage.setItem("task_data", JSON.stringify(temp));
+    setTaskData(formatTaskData(temp));
+  };
+
+  /* Functions for handling tasks */
   const addTask = (task) => {
     // Update local storage
     let temp = JSON.parse(localStorage.getItem("task_data"));
     temp.tasks.push(task);
     localStorage.setItem("task_data", JSON.stringify(temp));
-
-    // Update the formatted data with this task (add to correct folder or group with non-foldered tasks)
-    let tempTaskData = taskData;
-    if (task.folder) {
-      tempTaskData.folders[task.folder].tasks.push(task);
-    } else {
-      tempTaskData.otherTasks.push(task);
-    }
+    setTaskData(formatTaskData(temp));
   };
 
-  const editTask = (taskId, task) => {};
+  const editTask = (taskId, task) => {
+    // Update local storage
+    let temp = JSON.parse(localStorage.getItem("task_data"));
+    for (let i = 0; i < temp.tasks.length; i++) {
+      if (temp.tasks[i].id === taskId) {
+        temp.tasks[i] = task;
+        break;
+      }
+    }
+    localStorage.setItem("task_data", JSON.stringify(temp));
+    setTaskData(formatTaskData(temp));
+  };
 
-  const completeTask = () => {};
+  const completeTask = (taskId) => {
+    // Update local storage
+    let temp = JSON.parse(localStorage.getItem("task_data"));
+    for (let i = 0; i < temp.tasks.length; i++) {
+      if (temp.tasks[i].id === taskId) {
+        temp.tasks[i].completed = true;
+        break;
+      }
+    }
+    localStorage.setItem("task_data", JSON.stringify(temp));
+    setTaskData(formatTaskData(temp));
+  };
 
-  const deleteTask = () => {};
+  const deleteTask = (taskId) => {
+    // Update local storage
+    let temp = JSON.parse(localStorage.getItem("task_data"));
+    for (let i = 0; i < temp.tasks.length; i++) {
+      if (temp.tasks[i].id === taskId) {
+        temp.tasks.splice(i, 1);
+        break;
+      }
+    }
+    localStorage.setItem("task_data", JSON.stringify(temp));
+    setTaskData(formatTaskData(temp));
+  };
+
+  // Format the local storage data to be used in taskData hook
+  const formatTaskData = (data) => {
+    // Put tasks into their folders and group tasks without a folder
+    for (let i = 0; i < data.tasks.length; i++) {
+      const taskFolder = data.tasks[i].folder;
+      if (taskFolder) {
+        if (!data.folders[taskFolder].tasks) {
+          data.folders[taskFolder].tasks = [];
+        }
+        data.folders[taskFolder].tasks.push(data.tasks[i]);
+      } else {
+        if (!data.otherTasks) {
+          data.otherTasks = [];
+        }
+        data.otherTasks.push(data.tasks[i]);
+      }
+    }
+    delete data.tasks;
+    return data;
+  };
 
   // Get the task data from local storage
   const getTaskData = () => {
     let temp = JSON.parse(localStorage.getItem("task_data"));
-
-    // Put tasks into their folders and group tasks without a folder
-    for (let i = 0; i < temp.tasks.length; i++) {
-      const taskFolder = temp.tasks[i].folder;
-      if (taskFolder) {
-        if (!temp.folders[taskFolder].tasks) {
-          temp.folders[taskFolder].tasks = [];
-        }
-        temp.folders[taskFolder].tasks.push(temp.tasks[i]);
-      } else {
-        if (!temp.otherTasks) {
-          temp.otherTasks = [];
-        }
-        temp.otherTasks.push(temp.tasks[i]);
-      }
-    }
-    setTaskData(temp);
+    setTaskData(formatTaskData(temp));
   };
 
   useEffect(() => {

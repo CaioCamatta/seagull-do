@@ -12,7 +12,7 @@ function App() {
 
   // Get settings from local storage
   const fetchSettings = () => {
-    const seagull_do_settings = JSON.parse(localStorage.getItem("seagull_do_settings"))
+    const seagull_do_settings = JSON.parse(localStorage.getItem("seagull_settings"))
     setSettings(seagull_do_settings)
   }
 
