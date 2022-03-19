@@ -42,8 +42,11 @@ const AddTodo = () => {
               <FormControl
                 placeholder="Date"
                 aria-label="Date"
-                type="date"
+                type="text"
                 style={{ paddingRight: 5 }}
+                onFocus={(e) => {
+                  e.currentTarget.type = "date";
+                }}
               />
             </InputGroup>
             <InputGroup className="mb-3">

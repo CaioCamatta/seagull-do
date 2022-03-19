@@ -25,6 +25,10 @@ const dot = (color = "transparent") => ({
 });
 
 const colourStyles = {
+  container: (provided) => ({
+    ...provided,
+    width: "100%",
+  }),
   control: (styles) => ({ ...styles, backgroundColor: "white" }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     const color = chroma(data.color);
@@ -59,14 +63,42 @@ const colourStyles = {
   input: (styles) => ({ ...styles, ...dot() }),
   placeholder: (styles) => ({ ...styles, ...dot("#ccc") }),
   singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
+  // dropDown
 };
 
 const DropdownIndicator = (props) => {
+  console.log({ props }, props.getValue());
+
+  let color;
+
+  if (props.hasValue) {
+    color = props.getValue()[0].color;
+  }
+
   return (
     <components.DropdownIndicator {...props}>
-      <GrFlagFill />
+      <GrFlagFill color={color} />
     </components.DropdownIndicator>
   );
+};
+
+const customStyles = {
+  option: (provided, state) => ({
+    ...provided,
+    borderBottom: "1px dotted pink",
+    color: state.isSelected ? "red" : "blue",
+    padding: 20,
+  }),
+  control: () => ({
+    // none of react-select's styles are passed to <Control />
+    width: 200,
+  }),
+  singleValue: (provided, state) => {
+    const opacity = state.isDisabled ? 0.5 : 1;
+    const transition = "opacity 300ms";
+
+    return { ...provided, opacity, transition };
+  },
 };
 
 export default () => (
@@ -77,11 +109,5 @@ export default () => (
     styles={colourStyles}
     components={{ DropdownIndicator, IndicatorSeparator: () => null }}
     isSearchable={false}
-    styles={{
-      container: (provided) => ({
-        ...provided,
-        width: "100%",
-      }),
-    }}
   />
 );
