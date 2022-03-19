@@ -67,8 +67,6 @@ const colourStyles = {
 };
 
 const DropdownIndicator = (props) => {
-  console.log({ props }, props.getValue());
-
   let color;
 
   if (props.hasValue) {
