@@ -141,15 +141,17 @@ export default function TaskPage(props) {
 
   if (taskData) {
     return (
-      <div style={{ paddingLeft: "10%", paddingRight: "10%" }}>
+      <div style={{ paddingLeft: "10%", paddingRight: "10%", backgroundColor:"purple"}}>
         {Object.keys(taskData.folders).map((key) => {
           return <Folder key={key} folder={taskData.folders[key]} />;
         })}
         {taskData.otherTasks.map((task, index) => {
           return <Task key={index} task={task} />;
         })}
+        
         <AddTodo addTask={addTask} folders={getFolders()} />
         <AddFolder addFolder={addFolder} />
+        
       </div>
     );
   } else {
