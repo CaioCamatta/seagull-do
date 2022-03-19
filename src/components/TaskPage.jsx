@@ -16,6 +16,7 @@ import {
 import { GrUserSettings } from "react-icons/gr";
 import { BsFillGearFill } from "react-icons/bs";
 import seagull from "../images/main-seagull.png";
+import { SETTINGS_PAGE } from "../App";
 
 export default function TaskPage(props) {
   // Formatted data from local storage to make mapping easier
@@ -155,7 +156,7 @@ export default function TaskPage(props) {
   if (taskData) {
     return (
       <div>
-        <Header />
+        <Header setPage={props.setPage} />
         <div style={{ borderBottom: "solid black 4px", marginBottom: 10 }} />
         <div style={{ paddingLeft: "10%", paddingRight: "10%" }}>
           {Object.keys(taskData.folders).map((key) => {
@@ -177,13 +178,14 @@ export default function TaskPage(props) {
   }
 }
 
-const Header = () => {
+const Header = ({ setPage }) => {
   return (
     <Navbar>
       <Row style={{ width: "100%", padding: 0 }}>
         <Col xs={2}>
           <Button
             style={{ backgroundColor: "transparent", border: "transparent" }}
+            onClick={() => setPage(SETTINGS_PAGE)}
           >
             <BsFillGearFill color="black" size={30} />
           </Button>

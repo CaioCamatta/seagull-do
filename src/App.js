@@ -3,8 +3,10 @@ import "./App.css";
 import Button from "react-bootstrap/Button";
 import TaskPage from "./components/TaskPage";
 import { data } from "./components/TempData";
+import Settings from "./components/settings";
 // Pages for conditional rendering
-const TASK_PAGE = "TASK_PAGE";
+export const TASK_PAGE = "TASK_PAGE";
+export const SETTINGS_PAGE = "SETTINGS_PAGE";
 
 function App() {
   let [page, setPage] = useState(TASK_PAGE);
@@ -33,11 +35,14 @@ function App() {
   if (!intialized) return <div />;
 
   if (page === TASK_PAGE) {
-    return <TaskPage settings={settings} />;
+    return <TaskPage settings={settings} setPage={setPage} />;
+  }
+
+  if (page === SETTINGS_PAGE) {
+    return <Settings onChange={fetchSettings} />;
   }
 
   return <div>PAGE NOT FOUND</div>;
-
 }
 
 export default App;

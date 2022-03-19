@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
-const TodoFolderSelect = ({ setFolder, folders }) => {
+const TodoFolderSelect = ({ setFolder, folders, hideBorder }) => {
   const [folderOptions, setFolderOptions] = useState();
 
   useEffect(() => {
@@ -24,6 +24,10 @@ const TodoFolderSelect = ({ setFolder, folders }) => {
         container: (provided) => ({
           ...provided,
           width: "100%",
+        }),
+        control: (base, state) => ({
+          ...base,
+          border: hideBorder ? (state.isFocused ? 0 : 0) : base.border,
         }),
       }}
       onChange={({ value }) => {
