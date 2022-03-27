@@ -86,6 +86,7 @@ export default function TaskPage(props) {
   };
 
   const editTask = (taskId, task) => {
+    console.log("editing task...", { taskId, task });
     // Update local storage
     let temp = JSON.parse(localStorage.getItem("task_data"));
     for (let i = 0; i < temp.tasks.length; i++) {
@@ -162,10 +163,18 @@ export default function TaskPage(props) {
         <div style={{ borderBottom: "solid black 4px", marginBottom: 10 }} />
         <div style={{ paddingLeft: "10%", paddingRight: "10%" }}>
           {Object.keys(taskData.folders).map((key) => {
-            return <Folder key={key} folder={taskData.folders[key]} />;
+            return (
+              <Folder
+                key={key}
+                folder={taskData.folders[key]}
+                editTask={editTask}
+              />
+            );
           })}
           {taskData.otherTasks.map((task, index) => {
-            return <Task key={index} task={task} />;
+            if (!task.completed) {
+              return <Task key={index} task={task} editTask={editTask} />;
+            }
           })}
           <Footer
             addFolder={addFolder}
