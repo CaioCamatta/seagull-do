@@ -47,7 +47,7 @@ const AddFolder = ({ addFolder }) => {
       };
 
       addFolder(folder);
-      handleClose();
+      setShow(false);
     }
   };
 

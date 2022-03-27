@@ -42,7 +42,7 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
   const [date, setDate] = useState(existingTodo?.date);
 
   const [showError, setShowError] = useState(false);
-  
+
   const handleConfirm = () => {
     if (!title) {
       setShowError(true);
@@ -57,7 +57,7 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
 
       if (mode === CREATE) addTask(task);
       if (mode === EDIT) editTask(existingTodo.id, task);
-      handleClose();
+      setShow(false);
     }
   };
 
