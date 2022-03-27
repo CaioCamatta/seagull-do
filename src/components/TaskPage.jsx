@@ -15,8 +15,10 @@ import {
 } from "react-bootstrap";
 import { GrUserSettings } from "react-icons/gr";
 import { BsFillGearFill } from "react-icons/bs";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 import seagull from "../images/main-seagull.png";
 import { SETTINGS_PAGE } from "../App";
+import ReactTooltip from "react-tooltip";
 
 export default function TaskPage(props) {
   // Formatted data from local storage to make mapping easier
@@ -179,24 +181,36 @@ export default function TaskPage(props) {
 }
 
 const Header = ({ setPage }) => {
+  const tooltip_info =
+    "Welcome to Seagull Do! To get started, hit the bottom left button to make a folder. The bottom right button will create a task. Then you can use the pencil icon to edit that task! Good luck!";
   return (
     <Navbar>
       <Row style={{ width: "100%", padding: 0 }}>
-        <Col xs={2}>
-          <Button
-            style={{ backgroundColor: "transparent", border: "transparent" }}
+        <Col xs={1}>
+          <BsFillGearFill
+            className="mt-1"
+            color="black"
             onClick={() => setPage(SETTINGS_PAGE)}
-          >
-            <BsFillGearFill color="black" size={30} />
-          </Button>
+            size={30}
+          />
         </Col>
-        <Col xs={8} style={{ textAlign: "center" }}>
+        <Col xs={2}>
+          <AiOutlineInfoCircle
+            className="mt-1"
+            color="black"
+            size={30}
+            data-tip={tooltip_info}
+            data-for="info-tooltip"
+          />
+        </Col>
+        <Col xs={7} style={{ textAlign: "center" }}>
           <span style={{ fontSize: 24 }}> Seagull - Do</span>
         </Col>
         <Col xs={2}>
           <img src={seagull} width={40} />
         </Col>
       </Row>
+      <ReactTooltip id="info-tooltip" place="right" overridePosition={()=>{return {top: 2}}}/>
     </Navbar>
   );
 };
