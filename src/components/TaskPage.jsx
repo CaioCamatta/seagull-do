@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Task from "./Task";
 import Folder from "./Folder";
-import AddTodo from "../components/AddTodo";
+import AddTodo, { CREATE, EDIT } from "../components/AddTodo";
 import AddFolder from "../components/AddFolder";
 import {
   Button,
@@ -157,30 +157,41 @@ export default function TaskPage(props) {
   }, []);
 
   if (taskData) {
+    const folders = getFolders();
     return (
       <div>
         <Header setPage={props.setPage} />
         <div style={{ borderBottom: "solid black 4px", marginBottom: 10 }} />
-        <div style={{ paddingLeft: "10%", paddingRight: "10%" }}>
+        <div style={{ paddingLeft: "10%", paddingRight: "6%" }}>
           {Object.keys(taskData.folders).map((key) => {
             return (
               <Folder
                 key={key}
                 folder={taskData.folders[key]}
+                folders={folders}
                 editTask={editTask}
               />
             );
           })}
-          {taskData.otherTasks.map((task, index) => {
-            if (!task.completed) {
-              return <Task key={index} task={task} editTask={editTask} />;
-            }
+          {taskData?.otherTasks?.map((task, index) => {
+            if (!task.completed)
+              return (
+                <Task
+                  key={index}
+                  task={task}
+                  editTask={
+                    <AddTodo
+                      addTask={addTask}
+                      folders={folders}
+                      mode={EDIT}
+                      editTask={editTask}
+                      existingTodo={task}
+                    />
+                  }
+                />
+              );
           })}
-          <Footer
-            addFolder={addFolder}
-            addTask={addTask}
-            folders={getFolders()}
-          />
+          <Footer addFolder={addFolder} addTask={addTask} folders={folders} />
         </div>
       </div>
     );
@@ -241,7 +252,7 @@ const Footer = ({ addFolder, addTask, folders }) => {
         </Col>
         <Col xs={8} />
         <Col xs={2}>
-          <AddTodo addTask={addTask} folders={folders} />
+          <AddTodo addTask={addTask} folders={folders} mode={CREATE} />
         </Col>
       </Row>
     </Navbar>
