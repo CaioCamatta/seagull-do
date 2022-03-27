@@ -210,14 +210,20 @@ const Header = ({ setPage }) => {
           <img src={seagull} width={40} />
         </Col>
       </Row>
-      <ReactTooltip id="info-tooltip" place="right" overridePosition={()=>{return {top: 2}}}/>
+      <ReactTooltip
+        id="info-tooltip"
+        place="right"
+        overridePosition={() => {
+          return { top: 2 };
+        }}
+      />
     </Navbar>
   );
 };
 
 const Footer = ({ addFolder, addTask, folders }) => {
   return (
-    <Navbar fixed="bottom">
+    <Navbar fixed="bottom" style={{ backgroundColor: "white" }}>
       <Row
         style={{ width: "100%", padding: 0, paddingLeft: 25, paddingRight: 25 }}
       >
