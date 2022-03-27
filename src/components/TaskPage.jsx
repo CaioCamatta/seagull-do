@@ -80,23 +80,33 @@ export default function TaskPage(props) {
 
     let max = -1;
     for (let task of temp.tasks) {
-      max = Math.max(max, task.id);
+      if (task.id) {
+        max = Math.max(max, task.id);
+      }
     }
+    console.log("max id is", max);
     return max;
   };
 
   const editTask = (taskId, task) => {
-    console.log("editing task...", { taskId, task });
-    // Update local storage
-    let temp = JSON.parse(localStorage.getItem("task_data"));
-    for (let i = 0; i < temp.tasks.length; i++) {
-      if (temp.tasks[i].id === taskId) {
-        temp.tasks[i] = task;
-        break;
+    if (!taskId) {
+      alert(
+        "An error has occured... Please try clearing your cookies and cache (or open an incognito tab)"
+      );
+    } else {
+      console.log("editing task...", { taskId, task });
+      // Update local storage
+      let temp = JSON.parse(localStorage.getItem("task_data"));
+      for (let i = 0; i < temp.tasks.length; i++) {
+        if (temp.tasks[i].id === taskId) {
+          const newTask = { ...task, id: taskId };
+          temp.tasks[i] = newTask;
+          break;
+        }
       }
+      localStorage.setItem("task_data", JSON.stringify(temp));
+      setTaskData(formatTaskData(temp));
     }
-    localStorage.setItem("task_data", JSON.stringify(temp));
-    setTaskData(formatTaskData(temp));
   };
 
   const completeTask = (taskId) => {
@@ -155,6 +165,8 @@ export default function TaskPage(props) {
   useEffect(() => {
     getTaskData();
   }, []);
+
+  console.log({ taskData });
 
   if (taskData) {
     const folders = getFolders();
