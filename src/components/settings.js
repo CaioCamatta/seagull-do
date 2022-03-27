@@ -59,6 +59,24 @@ export default class Settings extends React.Component {
     // this.getFolders();
   }
 
+  static loadSettings() {
+    // Defines default settings for the application.
+    let default_settings = {
+        dark_mode: false,
+        week_starts_on: "Monday",
+        default_task_folder: null,
+        seagull_icon: "seagull1.png",
+        tasks_for_level_up: 5,
+        seagull_scream: "scream1.mp3",
+        seagull_scream_disabled: false,
+      };
+  
+    const settingsFromStorage = localStorage.getItem("seagull_settings");
+    if (settingsFromStorage === null) {
+        localStorage.setItem("seagull_settings", JSON.stringify(default_settings));
+    }
+}
+
   // Pull the task folders from local storage.
   getFolders() {
     this.setState({ folders: localStorage.getItem("task_data").folders });

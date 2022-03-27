@@ -15,6 +15,10 @@ function App() {
 
   // Get settings from local storage
   const fetchSettings = () => {
+
+    // Initialize settings if they don't exist.
+    Settings.loadSettings();
+
     const seagull_do_settings = JSON.parse(
       localStorage.getItem("seagull_settings")
     );

@@ -20,6 +20,14 @@ export default function Task(props) {
     }, 3000);
   };
 
+// Play a seagull scream.
+const playScream = () => {
+    let temp = JSON.parse(localStorage.getItem("seagull_settings"));
+    let path = require("../screams/" + temp.seagull_scream);
+    let audio = new Audio(path);
+    audio.play();
+};
+
   return (
     <div
       id={taskName}
@@ -52,6 +60,7 @@ export default function Task(props) {
         </div>
       </div>
       <div>{props.editTask}</div>
+      {checked ? playScream() : null}
       {checked ? <SeagullFly /> : null}
     </div>
   );
