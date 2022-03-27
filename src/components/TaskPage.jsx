@@ -199,7 +199,7 @@ export default function TaskPage(props) {
                 key={key}
                 folder={taskData.folders[key]}
                 folders={folders}
-                editTask={editTask}
+                editTaskFunction={editTask}
                 folderId={key}
                 deleteFolder={deleteFolder}
               />
@@ -220,6 +220,7 @@ export default function TaskPage(props) {
                       existingTodo={task}
                     />
                   }
+                  editTaskFunction={editTask}
                 />
               );
           })}

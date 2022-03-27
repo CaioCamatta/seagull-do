@@ -103,6 +103,7 @@ export default function Folder(props) {
                       existingTodo={task}
                     />
                   }
+                  editTaskFunction={props.editTaskFunction}
                 />
               );
           })}
