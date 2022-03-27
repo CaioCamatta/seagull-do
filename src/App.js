@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from 'react-dom'
 import "./App.css";
 import Button from "react-bootstrap/Button";
 import TaskPage from "./components/TaskPage";
@@ -15,6 +16,10 @@ function App() {
 
   // Get settings from local storage
   const fetchSettings = () => {
+
+    // Initialize settings if they don't exist.
+    Settings.loadSettings();
+
     const seagull_do_settings = JSON.parse(
       localStorage.getItem("seagull_settings")
     );
