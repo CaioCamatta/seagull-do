@@ -55,10 +55,26 @@ export default function TaskPage(props) {
     setTaskData(formatTaskData(temp));
   };
 
-  const deleteFolder = (taskId) => {
+  const deleteFolder = (folderId) => {
     // Update local storage
     let temp = JSON.parse(localStorage.getItem("task_data"));
-    delete temp.folders[taskId];
+    console.log("before deletion temp", { temp });
+
+    // first delete all the tasks in the folder
+
+    for (let task of temp.tasks) {
+      if (task.folder == folderId) {
+        deleteTask(task.id);
+      }
+    }
+
+    // refetch temp
+    temp = JSON.parse(localStorage.getItem("task_data"));
+
+    // then delete the folder
+
+    delete temp.folders[folderId];
+    console.log("deleted temp", { temp });
     localStorage.setItem("task_data", JSON.stringify(temp));
     setTaskData(formatTaskData(temp));
   };
@@ -141,7 +157,8 @@ export default function TaskPage(props) {
     for (let i = 0; i < data.tasks.length; i++) {
       const taskFolder = data.tasks[i].folder;
       if (taskFolder) {
-        if (!data.folders[taskFolder].tasks) {
+        console.log({ taskFolder }, data.tasks[i]);
+        if (!data?.folders[taskFolder]?.tasks) {
           data.folders[taskFolder].tasks = [];
         }
         data.folders[taskFolder].tasks.push(data.tasks[i]);
@@ -167,6 +184,7 @@ export default function TaskPage(props) {
   }, []);
 
   console.log({ taskData });
+  console.log("from json", JSON.parse(localStorage.getItem("task_data")));
 
   if (taskData) {
     const folders = getFolders();
@@ -182,6 +200,8 @@ export default function TaskPage(props) {
                 folder={taskData.folders[key]}
                 folders={folders}
                 editTask={editTask}
+                folderId={key}
+                deleteFolder={deleteFolder}
               />
             );
           })}
