@@ -21,7 +21,19 @@ export const CREATE = "CREATE";
 const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    if (!!title) {
+      if (
+        window.confirm(
+          "Are you sure you want to cancel adding this task? Your input will be lost."
+        )
+      ) {
+        setShow(false);
+      }
+    } else {
+      setShow(false);
+    }
+  };
   const handleShow = () => setShow(true);
 
   const [priority, setPriority] = useState(existingTodo?.priority);
@@ -29,18 +41,24 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
   const [title, setTitle] = useState(existingTodo?.name);
   const [date, setDate] = useState(existingTodo?.date);
 
+  const [showError, setShowError] = useState(false);
+  
   const handleConfirm = () => {
-    let task = {
-      name: title,
-      folder,
-      priority,
-      date,
-      completed: false,
-    };
+    if (!title) {
+      setShowError(true);
+    } else {
+      let task = {
+        name: title,
+        folder,
+        priority,
+        date,
+        completed: false,
+      };
 
-    if (mode === CREATE) addTask(task);
-    if (mode === EDIT) editTask(existingTodo.id, task);
-    handleClose();
+      if (mode === CREATE) addTask(task);
+      if (mode === EDIT) editTask(existingTodo.id, task);
+      handleClose();
+    }
   };
 
   const handleDelete = () => {
@@ -101,7 +119,11 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
+              {showError && !title && (
+                <span className="text-danger">Required</span>
+              )}
               <Form.Control
+                isInvalid={showError && !title}
                 type="text"
                 placeholder="Task Title"
                 onChange={(e) => {
