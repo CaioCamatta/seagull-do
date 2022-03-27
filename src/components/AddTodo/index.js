@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import { GrAddCircle } from "react-icons/gr";
 import { ImCheckmark, ImCross } from "react-icons/im";
+import { IoTrashBin } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
 import TodoFolderSelect from "./TodoFolderSelect";
 import TodoPrioritySelect from "./TodoPrioritySelect";
@@ -42,6 +43,17 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
     handleClose();
   };
 
+  const handleDelete = () => {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this todo? You will not earn any Seagul Points"
+      )
+    ) {
+      editTask(existingTodo.id, { ...existingTodo, completed: true });
+      handleClose();
+    }
+  };
+
   console.log({ existingTodo });
 
   return (
@@ -72,6 +84,19 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
       <Modal show={show} onHide={handleClose} fullscreen>
         <Modal.Header>
           <Modal.Title>{mode === CREATE ? "Add" : "Edit"} Todo</Modal.Title>
+          <Button
+            style={{
+              backgroundColor: "transparent",
+              border: "transparent",
+              padding: 0,
+              margin: 0,
+              color: "red",
+              fontSize: 24,
+            }}
+            onClick={() => handleDelete()}
+          >
+            <IoTrashBin />
+          </Button>
         </Modal.Header>
         <Modal.Body>
           <Form>

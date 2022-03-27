@@ -55,10 +55,26 @@ export default function TaskPage(props) {
     setTaskData(formatTaskData(temp));
   };
 
-  const deleteFolder = (taskId) => {
+  const deleteFolder = (folderId) => {
     // Update local storage
     let temp = JSON.parse(localStorage.getItem("task_data"));
-    delete temp.folders[taskId];
+    console.log("before deletion temp", { temp });
+
+    // first delete all the tasks in the folder
+
+    for (let task of temp.tasks) {
+      if (task.folder == folderId) {
+        deleteTask(task.id);
+      }
+    }
+
+    // refetch temp
+    temp = JSON.parse(localStorage.getItem("task_data"));
+
+    // then delete the folder
+
+    delete temp.folders[folderId];
+    console.log("deleted temp", { temp });
     localStorage.setItem("task_data", JSON.stringify(temp));
     setTaskData(formatTaskData(temp));
   };
@@ -80,23 +96,33 @@ export default function TaskPage(props) {
 
     let max = -1;
     for (let task of temp.tasks) {
-      max = Math.max(max, task.id);
+      if (task.id) {
+        max = Math.max(max, task.id);
+      }
     }
+    console.log("max id is", max);
     return max;
   };
 
   const editTask = (taskId, task) => {
-    console.log("editing...", { taskId, task });
-    // Update local storage
-    let temp = JSON.parse(localStorage.getItem("task_data"));
-    for (let i = 0; i < temp.tasks.length; i++) {
-      if (temp.tasks[i].id === taskId) {
-        temp.tasks[i] = task;
-        break;
+    if (!taskId) {
+      alert(
+        "An error has occured... Please try clearing your cookies and cache (or open an incognito tab)"
+      );
+    } else {
+      console.log("editing task...", { taskId, task });
+      // Update local storage
+      let temp = JSON.parse(localStorage.getItem("task_data"));
+      for (let i = 0; i < temp.tasks.length; i++) {
+        if (temp.tasks[i].id === taskId) {
+          const newTask = { ...task, id: taskId };
+          temp.tasks[i] = newTask;
+          break;
+        }
       }
+      localStorage.setItem("task_data", JSON.stringify(temp));
+      setTaskData(formatTaskData(temp));
     }
-    localStorage.setItem("task_data", JSON.stringify(temp));
-    setTaskData(formatTaskData(temp));
   };
 
   const completeTask = (taskId) => {
@@ -131,7 +157,8 @@ export default function TaskPage(props) {
     for (let i = 0; i < data.tasks.length; i++) {
       const taskFolder = data.tasks[i].folder;
       if (taskFolder) {
-        if (!data.folders[taskFolder].tasks) {
+        console.log({ taskFolder }, data.tasks[i]);
+        if (!data?.folders[taskFolder]?.tasks) {
           data.folders[taskFolder].tasks = [];
         }
         data.folders[taskFolder].tasks.push(data.tasks[i]);
@@ -156,6 +183,9 @@ export default function TaskPage(props) {
     getTaskData();
   }, []);
 
+  console.log({ taskData });
+  console.log("from json", JSON.parse(localStorage.getItem("task_data")));
+
   if (taskData) {
     const folders = getFolders();
     return (
@@ -170,25 +200,28 @@ export default function TaskPage(props) {
                 folder={taskData.folders[key]}
                 folders={folders}
                 editTask={editTask}
+                folderId={key}
+                deleteFolder={deleteFolder}
               />
             );
           })}
           {taskData?.otherTasks?.map((task, index) => {
-            return (
-              <Task
-                key={index}
-                task={task}
-                editTask={
-                  <AddTodo
-                    addTask={addTask}
-                    folders={folders}
-                    mode={EDIT}
-                    editTask={editTask}
-                    existingTodo={task}
-                  />
-                }
-              />
-            );
+            if (!task.completed)
+              return (
+                <Task
+                  key={index}
+                  task={task}
+                  editTask={
+                    <AddTodo
+                      addTask={addTask}
+                      folders={folders}
+                      mode={EDIT}
+                      editTask={editTask}
+                      existingTodo={task}
+                    />
+                  }
+                />
+              );
           })}
           <Footer addFolder={addFolder} addTask={addTask} folders={folders} />
         </div>
@@ -229,14 +262,20 @@ const Header = ({ setPage }) => {
           <img src={seagull} width={40} />
         </Col>
       </Row>
-      <ReactTooltip id="info-tooltip" place="right" overridePosition={()=>{return {top: 2}}}/>
+      <ReactTooltip
+        id="info-tooltip"
+        place="right"
+        overridePosition={() => {
+          return { top: 2 };
+        }}
+      />
     </Navbar>
   );
 };
 
 const Footer = ({ addFolder, addTask, folders }) => {
   return (
-    <Navbar fixed="bottom">
+    <Navbar fixed="bottom" style={{ backgroundColor: "white" }}>
       <Row
         style={{ width: "100%", padding: 0, paddingLeft: 25, paddingRight: 25 }}
       >
