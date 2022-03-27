@@ -10,24 +10,25 @@ import {
 } from "react-bootstrap";
 import { GrAddCircle } from "react-icons/gr";
 import { ImCheckmark, ImCross } from "react-icons/im";
+import { BsPencil } from "react-icons/bs";
 import TodoFolderSelect from "./TodoFolderSelect";
 import TodoPrioritySelect from "./TodoPrioritySelect";
 
 export const EDIT = "EDIT";
 export const CREATE = "CREATE";
 
-const AddTodo = ({ addTask, folders, mode }) => {
+const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [priority, setPriority] = useState();
-  const [folder, setFolder] = useState();
-  const [title, setTitle] = useState();
-  const [date, setDate] = useState();
+  const [priority, setPriority] = useState(existingTodo?.priority);
+  const [folder, setFolder] = useState(existingTodo?.folder);
+  const [title, setTitle] = useState(existingTodo?.name);
+  const [date, setDate] = useState(existingTodo?.date);
 
-  const handleCreate = () => {
+  const handleConfirm = () => {
     let task = {
       name: title,
       folder,
@@ -36,22 +37,41 @@ const AddTodo = ({ addTask, folders, mode }) => {
       completed: false,
     };
 
-    addTask(task);
+    if (mode === CREATE) addTask(task);
+    if (mode === EDIT) editTask(existingTodo.id, task);
     handleClose();
   };
 
+  console.log({ existingTodo });
+
   return (
     <>
-      <Button
-        onClick={handleShow}
-        style={{ backgroundColor: "transparent", border: "transparent" }}
-      >
-        <GrAddCircle size={40} />
-      </Button>
+      {mode === CREATE && (
+        <Button
+          onClick={handleShow}
+          style={{ backgroundColor: "transparent", border: "transparent" }}
+        >
+          <GrAddCircle size={40} />
+        </Button>
+      )}
+      {mode === EDIT && (
+        <Button
+          onClick={handleShow}
+          style={{
+            backgroundColor: "transparent",
+            border: "transparent",
+            padding: 0,
+            margin: 0,
+            color: "black",
+          }}
+        >
+          <BsPencil size={25} />
+        </Button>
+      )}
 
       <Modal show={show} onHide={handleClose} fullscreen>
         <Modal.Header>
-          <Modal.Title>Add Todo</Modal.Title>
+          <Modal.Title>{mode === CREATE ? "Add" : "Edit"} Todo</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -62,28 +82,49 @@ const AddTodo = ({ addTask, folders, mode }) => {
                 onChange={(e) => {
                   setTitle(e.target.value);
                 }}
+                defaultValue={existingTodo?.name}
               />
             </Form.Group>
 
             <InputGroup className="mb-3">
-              <FormControl
-                placeholder="Date"
-                aria-label="Date"
-                type="text"
-                style={{ paddingRight: 5 }}
-                onFocus={(e) => {
-                  e.currentTarget.type = "date";
-                }}
-                onChange={(e) => {
-                  setDate(e.target.value);
-                }}
+              {mode === CREATE || !existingTodo.date ? (
+                <FormControl
+                  placeholder="Date"
+                  aria-label="Date"
+                  type="text"
+                  style={{ paddingRight: 5 }}
+                  onFocus={(e) => {
+                    e.currentTarget.type = "date";
+                  }}
+                  onChange={(e) => {
+                    setDate(e.target.value);
+                  }}
+                />
+              ) : (
+                <FormControl
+                  placeholder="Date"
+                  aria-label="Date"
+                  type="date"
+                  style={{ paddingRight: 5 }}
+                  defaultValue={existingTodo?.date}
+                  onChange={(e) => {
+                    setDate(e.target.value);
+                  }}
+                />
+              )}
+            </InputGroup>
+            <InputGroup className="mb-3">
+              <TodoFolderSelect
+                setFolder={setFolder}
+                folders={folders}
+                defaultValue={existingTodo?.folder}
               />
             </InputGroup>
             <InputGroup className="mb-3">
-              <TodoFolderSelect setFolder={setFolder} folders={folders} />
-            </InputGroup>
-            <InputGroup className="mb-3">
-              <TodoPrioritySelect setPriority={setPriority} />
+              <TodoPrioritySelect
+                setPriority={setPriority}
+                defaultValue={existingTodo?.priority}
+              />
             </InputGroup>
           </Form>
         </Modal.Body>
@@ -105,7 +146,7 @@ const AddTodo = ({ addTask, folders, mode }) => {
             <Col xs={8} />
             <Col xs={2}>
               <Button
-                onClick={handleCreate}
+                onClick={handleConfirm}
                 style={{
                   backgroundColor: "transparent",
                   border: "transparent",

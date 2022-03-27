@@ -100,16 +100,24 @@ const customStyles = {
   },
 };
 
-export default ({ setPriority }) => (
-  <Select
-    // defaultValue={colourOptions[0]}
-    placeholder="Select Priority..."
-    options={colourOptions}
-    styles={colourStyles}
-    components={{ DropdownIndicator, IndicatorSeparator: () => null }}
-    isSearchable={false}
-    onChange={({ value }) => {
-      setPriority(value);
-    }}
-  />
-);
+const TodoPrioritySelect = ({ setPriority, defaultValue }) => {
+  const defaultOption = colourOptions.find(
+    (element) => element.value === defaultValue
+  );
+  return (
+    <Select
+      // defaultValue={colourOptions[0]}
+      defaultValue={defaultOption}
+      placeholder="Select Priority..."
+      options={colourOptions}
+      styles={colourStyles}
+      components={{ DropdownIndicator, IndicatorSeparator: () => null }}
+      isSearchable={false}
+      onChange={({ value }) => {
+        setPriority(value);
+      }}
+    />
+  );
+};
+
+export default TodoPrioritySelect;

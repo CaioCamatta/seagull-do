@@ -8,6 +8,7 @@ import {
   FaRegFolderOpen,
 } from "react-icons/fa";
 import Task from "./Task";
+import AddTodo, { EDIT } from "./AddTodo";
 
 export default function Folder(props) {
   let [openDropdown, setOpenDropdown] = useState(false);
@@ -48,7 +49,20 @@ export default function Folder(props) {
       {openDropdown ? (
         <div style={{ marginLeft: "25px" }}>
           {props.folder?.tasks?.map((task, index) => {
-            return <Task key={index} task={task} />;
+            return (
+              <Task
+                key={index}
+                task={task}
+                editTask={
+                  <AddTodo
+                    folders={props.folders}
+                    mode={EDIT}
+                    editTask={props.editTask}
+                    existingTodo={task}
+                  />
+                }
+              />
+            );
           })}
         </div>
       ) : null}

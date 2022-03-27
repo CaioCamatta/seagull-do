@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 import { BsPencil } from "react-icons/bs";
 
 export default function Task(props) {
@@ -21,13 +22,15 @@ export default function Task(props) {
             <span>{props.task.name}</span>
           </div>
           <div className="" style={{ fontSize: "12px" }}>
-            {new Date(props.task.date).toLocaleDateString("en-CA")}
+            {props.task.date ? (
+              new Date(props.task.date + " ").toLocaleDateString("en-CA")
+            ) : (
+              <span> &#x200b;</span>
+            )}
           </div>
         </div>
       </div>
-      <div>
-        <BsPencil size={25} />
-      </div>
+      <div>{props.editTask}</div>
     </div>
   );
 }
