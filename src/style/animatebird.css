@@ -51,8 +51,8 @@ h1 {
           animation-name: fly-right-one;
   -webkit-animation-timing-function: linear;
           animation-timing-function: linear;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
 }
 .bird-container--one {
   -webkit-animation-duration: 3s;
@@ -101,38 +101,38 @@ h1 {
 }
 @keyframes fly-right-one {
   0% {
-    transform: scale(2) translateX(-10vw);
+    transform: scale(2) translateY(-20vh) translateX(-10vw);
   }
   10% {
-    transform: translateY(0vh) translateX(10vw) scale(1.5);
+    transform: translateY(-10vh) translateX(10vw) scale(1.5);
   }
   20% {
-    transform: translateY(4em) translateX(20vw) scale(1.5);
+    transform: translateY(0em) translateX(20vw) scale(1.5);
   }
   30% {
-    transform: translateY(8em) translateX(30vw) scale(1.5);
+    transform: translateY(0.5em) translateX(30vw) scale(1.5);
   }
   40% {
-    transform: translateY(11em) translateX(40vw) scale(1.5);
+    transform: translateY(1em) translateX(40vw) scale(1.5);
   }
   50% {
-    transform: translateY(12em) translateX(50vw) scale(1.5);
+    transform: translateY(1em) translateX(50vw) scale(1.5);
   }
 
   60% {
-    transform: translateY(11em) translateX(60vw) scale(1.5);
+    transform: translateY(1em) translateX(55vw) scale(1.5);
   }
   70%{
-    transform: translateY(8em) translateX(70vw) scale(1.5);
+    transform: translateY(0.5em) translateX(60vw) scale(1.5);
   }
   80%{
-    transform: translateY(4em) translateX(80vw) scale(1.5);
+    transform: translateY(0em) translateX(70vw) scale(1.5);
   }
   90%{
-    transform: translateY(0em) translateX(95vw) scale(1.5);
+    transform: translateY(-10em) translateX(85vw) scale(1.5);
   }
   100% {
-    transform: translateY(-10vh) translateX(120vw) scale(1.5);
+    transform: translateY(-20vh) translateX(120vw) scale(1.5);
   }
 }
 
