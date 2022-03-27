@@ -100,7 +100,6 @@ export default class Settings extends React.Component {
   }
 
   setDefaultTaskFolder(folder_name) {
-    console.log("aaaaaaaa", folder_name);
     this.setState({ default_task_folder: folder_name }, () =>
       this.saveSettings()
     );
@@ -143,7 +142,6 @@ export default class Settings extends React.Component {
 
   // Render settings.
   render() {
-    console.log("state", this.state);
     return (
       <div>
         <Header setPage={this.props.setPage} />

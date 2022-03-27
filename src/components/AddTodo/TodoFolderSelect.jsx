@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
-const TodoFolderSelect = ({ setFolder, folders, hideBorder }) => {
+const TodoFolderSelect = ({ setFolder, folders, hideBorder, defaultValue }) => {
   const [folderOptions, setFolderOptions] = useState();
 
   useEffect(() => {
@@ -13,6 +13,14 @@ const TodoFolderSelect = ({ setFolder, folders, hideBorder }) => {
 
     setFolderOptions(temp);
   }, [folders]);
+
+  console.log({ folderOptions });
+
+  const defaultOption = folderOptions?.find(
+    (element) => element.value === defaultValue
+  );
+
+  if (folderOptions === undefined) return "...";
 
   return (
     <Select
@@ -33,6 +41,8 @@ const TodoFolderSelect = ({ setFolder, folders, hideBorder }) => {
       onChange={({ value }) => {
         setFolder(value);
       }}
+      // defaultInputValue={"3"}
+      defaultValue={defaultOption}
     />
   );
 };
