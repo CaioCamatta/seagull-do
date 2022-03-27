@@ -3,6 +3,20 @@ import Task from "./Task";
 import Folder from "./Folder";
 import AddTodo from "../components/AddTodo";
 import AddFolder from "../components/AddFolder";
+import {
+  Button,
+  Form,
+  Modal,
+  InputGroup,
+  FormControl,
+  Row,
+  Col,
+  Navbar,
+} from "react-bootstrap";
+import { GrUserSettings } from "react-icons/gr";
+import { BsFillGearFill } from "react-icons/bs";
+import seagull from "../images/main-seagull.png";
+import { SETTINGS_PAGE } from "../App";
 
 export default function TaskPage(props) {
   // Formatted data from local storage to make mapping easier
@@ -141,20 +155,66 @@ export default function TaskPage(props) {
 
   if (taskData) {
     return (
-      <div style={{ paddingLeft: "10%", paddingRight: "10%", backgroundColor:"purple"}}>
-        {Object.keys(taskData.folders).map((key) => {
-          return <Folder key={key} folder={taskData.folders[key]} />;
-        })}
-        {taskData.otherTasks.map((task, index) => {
-          return <Task key={index} task={task} />;
-        })}
-        
-        <AddTodo addTask={addTask} folders={getFolders()} />
-        <AddFolder addFolder={addFolder} />
-        
+      <div>
+        <Header setPage={props.setPage} />
+        <div style={{ borderBottom: "solid black 4px", marginBottom: 10 }} />
+        <div style={{ paddingLeft: "10%", paddingRight: "10%" }}>
+          {Object.keys(taskData.folders).map((key) => {
+            return <Folder key={key} folder={taskData.folders[key]} />;
+          })}
+          {taskData.otherTasks.map((task, index) => {
+            return <Task key={index} task={task} />;
+          })}
+          <Footer
+            addFolder={addFolder}
+            addTask={addTask}
+            folders={getFolders()}
+          />
+        </div>
       </div>
     );
   } else {
     return <div>Loading...</div>;
   }
 }
+
+const Header = ({ setPage }) => {
+  return (
+    <Navbar>
+      <Row style={{ width: "100%", padding: 0 }}>
+        <Col xs={2}>
+          <Button
+            style={{ backgroundColor: "transparent", border: "transparent" }}
+            onClick={() => setPage(SETTINGS_PAGE)}
+          >
+            <BsFillGearFill color="black" size={30} />
+          </Button>
+        </Col>
+        <Col xs={8} style={{ textAlign: "center" }}>
+          <span style={{ fontSize: 24 }}> Seagull - Do</span>
+        </Col>
+        <Col xs={2}>
+          <img src={seagull} width={40} />
+        </Col>
+      </Row>
+    </Navbar>
+  );
+};
+
+const Footer = ({ addFolder, addTask, folders }) => {
+  return (
+    <Navbar fixed="bottom">
+      <Row
+        style={{ width: "100%", padding: 0, paddingLeft: 25, paddingRight: 25 }}
+      >
+        <Col xs={2}>
+          <AddFolder addFolder={addFolder} />
+        </Col>
+        <Col xs={8} />
+        <Col xs={2}>
+          <AddTodo addTask={addTask} folders={folders} />
+        </Col>
+      </Row>
+    </Navbar>
+  );
+};
