@@ -16,21 +16,39 @@ import FolderColorSelect from "./FolderColorSelect";
 const AddFolder = ({ addFolder }) => {
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    if (!!title) {
+      if (
+        window.confirm(
+          "Are you sure you want to cancel adding this folder? Your input will be lost."
+        )
+      ) {
+        setShow(false)
+      }
+    } else {
+      setShow(false)
+    }
+  };
   const handleShow = () => setShow(true);
 
-  const [title, setTitle] = useState();
-  const [color, setColor] = useState();
+  const [title, setTitle] = useState("");
+  const [color, setColor] = useState("");
+
+  const [showError, setShowError] = useState(false);
 
   const handleCreate = () => {
-    let folder = {
-      name: title,
-      colorName: color.name,
-      colorCode: color.code,
-    };
+    if (!title) {
+      setShowError(true);
+    } else {
+      let folder = {
+        name: title,
+        colorName: color.name,
+        colorCode: color.code,
+      };
 
-    addFolder(folder);
-    handleClose();
+      addFolder(folder);
+      setShow(false);
+    }
   };
 
   return (
@@ -49,7 +67,11 @@ const AddFolder = ({ addFolder }) => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
+              {showError && !title && (
+                <span className="text-danger">Required</span>
+              )}
               <Form.Control
+                isInvalid={showError && !title}
                 type="text"
                 placeholder="Folder Title"
                 onChange={(e) => {
