@@ -13,7 +13,10 @@ import { ImCheckmark, ImCross } from "react-icons/im";
 import TodoFolderSelect from "./TodoFolderSelect";
 import TodoPrioritySelect from "./TodoPrioritySelect";
 
-const AddTodo = ({ addTask, folders }) => {
+export const EDIT = "EDIT";
+export const CREATE = "CREATE";
+
+const AddTodo = ({ addTask, folders, mode }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
