@@ -16,7 +16,7 @@ export default function Task(props) {
     setTimeout(() => {
       setChecked(checked);
       const updatedTask = { ...props.task, completed: !checked };
-      props.editTask(props.task.id, updatedTask);
+      props.editTaskFunction(props.task.id, updatedTask);
     }, 3000);
   };
 
