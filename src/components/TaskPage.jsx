@@ -19,7 +19,7 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import seagull from "../images/main-seagull.png";
 import { SETTINGS_PAGE } from "../App";
 import ReactTooltip from "react-tooltip";
-
+import SeagullInfo from "./seagullinfo";
 
 //For Darkseid
 import "../style/darkMode.css";
@@ -28,11 +28,9 @@ import "../style/darkMode.css";
 const setTheme = () => {
   var theme = localStorage.getItem("theme");
   document.documentElement.setAttribute("data-theme", theme);
-}
+};
 export default function TaskPage(props) {
-
   setTheme();
-
 
   // Formatted data from local storage to make mapping easier
   let [taskData, setTaskData] = useState(null);
@@ -186,6 +184,15 @@ export default function TaskPage(props) {
     return data;
   };
 
+  const completedTaskCount = () => {
+    let temp = JSON.parse(localStorage.getItem("task_data"));
+    let count = 0;
+    for (let task of temp.tasks) {
+      if (task.completed) count++;
+    }
+    return count;
+  };
+
   // Get the task data from local storage
   const getTaskData = () => {
     let temp = JSON.parse(localStorage.getItem("task_data"));
@@ -203,7 +210,11 @@ export default function TaskPage(props) {
     const folders = getFolders();
     return (
       <div>
-        <Header setPage={props.setPage} />
+        <Header
+          setPage={props.setPage}
+          settings={props.settings}
+          tasksCompleted={completedTaskCount()}
+        />
         <div style={{ borderBottom: "solid black 4px", marginBottom: 10 }} />
         <div style={{ paddingLeft: "10%", paddingRight: "6%" }}>
           {Object.keys(taskData.folders).map((key) => {
@@ -246,7 +257,7 @@ export default function TaskPage(props) {
   }
 }
 
-const Header = ({ setPage }) => {
+const Header = ({ setPage, settings, tasksCompleted }) => {
   const tooltip_info =
     "Welcome to Seagull Do! To get started, hit the bottom left button to make a folder. The bottom right button will create a task. Then you can use the pencil icon to edit that task! Good luck!";
   return (
@@ -273,7 +284,7 @@ const Header = ({ setPage }) => {
           <span style={{ fontSize: 24 }}> Seagull - Do</span>
         </Col>
         <Col xs={2}>
-          <img src={seagull} width={40} />
+          <SeagullInfo settings={settings} tasksCompleted={tasksCompleted} />
         </Col>
       </Row>
       <ReactTooltip

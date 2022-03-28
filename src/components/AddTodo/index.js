@@ -63,8 +63,7 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
           onClick={handleShow}
           style={{ backgroundColor: "transparent", border: "transparent" }}
         >
-         
-          <MdAddCircleOutline size={40} id="fp-icon"  />
+          <MdAddCircleOutline size={40} id="fp-icon" />
         </Button>
       )}
       {mode === EDIT && (
@@ -85,19 +84,21 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
       <Modal show={show} onHide={handleClose} fullscreen>
         <Modal.Header>
           <Modal.Title>{mode === CREATE ? "Add" : "Edit"} Todo</Modal.Title>
-          <Button
-            style={{
-              backgroundColor: "transparent",
-              border: "transparent",
-              padding: 0,
-              margin: 0,
-              color: "red",
-              fontSize: 24,
-            }}
-            onClick={() => handleDelete()}
-          >
-            <IoTrashBin />
-          </Button>
+          {mode === EDIT && (
+            <Button
+              style={{
+                backgroundColor: "transparent",
+                border: "transparent",
+                padding: 0,
+                margin: 0,
+                color: "red",
+                fontSize: 24,
+              }}
+              onClick={() => handleDelete()}
+            >
+              <IoTrashBin />
+            </Button>
+          )}
         </Modal.Header>
         <Modal.Body>
           <Form>

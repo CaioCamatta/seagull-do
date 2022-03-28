@@ -89,27 +89,25 @@ export default class Settings extends React.Component {
   }
 
   setDark = () => {
-
-      localStorage.setItem("theme", "dark");
-  }
+    localStorage.setItem("theme", "dark");
+  };
 
   setLight = () => {
-      localStorage.setItem("theme", "light");
-  }
+    localStorage.setItem("theme", "light");
+  };
   setTheme = () => {
     var theme = localStorage.getItem("theme");
     document.documentElement.setAttribute("data-theme", theme);
-  }
+  };
   // Functions for modifying the settings based on user input.
   toggleDarkMode() {
     this.setState(
       (prevState) => ({ dark_mode: !prevState.dark_mode }),
       () => this.saveSettings()
     );
-    if (!this.state.dark_mode){
+    if (!this.state.dark_mode) {
       this.setDark();
-    }
-    else{
+    } else {
       this.setLight();
     }
   }
@@ -133,17 +131,21 @@ export default class Settings extends React.Component {
   }
 
   incrementNumTasks() {
-    this.setState(
-      { tasks_for_level_up: this.state.tasks_for_level_up + 1 },
-      () => this.saveSettings()
-    );
+    if (this.state.tasks_for_level_up < 10) {
+      this.setState(
+        { tasks_for_level_up: this.state.tasks_for_level_up + 1 },
+        () => this.saveSettings()
+      );
+    }
   }
 
   decrementNumTasks() {
-    this.setState(
-      { tasks_for_level_up: this.state.tasks_for_level_up - 1 },
-      () => this.saveSettings()
-    );
+    if (this.state.tasks_for_level_up > 1) {
+      this.setState(
+        { tasks_for_level_up: this.state.tasks_for_level_up - 1 },
+        () => this.saveSettings()
+      );
+    }
   }
 
   setSeagullScream(scream) {
@@ -159,7 +161,6 @@ export default class Settings extends React.Component {
     );
   }
 
-  
   // Render settings.
   render() {
     this.setTheme();
@@ -342,8 +343,24 @@ export default class Settings extends React.Component {
               <div className="d-flex justify-content-center">
                 <span>{this.state.tasks_for_level_up} &nbsp;&nbsp;</span>
                 <div className="d-flex flex-column">
-                  <IoIosArrowUp onClick={() => this.incrementNumTasks()} />
-                  <IoIosArrowDown onClick={() => this.decrementNumTasks()} />
+                  <IoIosArrowUp
+                    onClick={() => this.incrementNumTasks()}
+                    style={{
+                      color:
+                        this.state.tasks_for_level_up >= 10
+                          ? "lightgrey"
+                          : "black",
+                    }}
+                  />
+                  <IoIosArrowDown
+                    onClick={() => this.decrementNumTasks()}
+                    style={{
+                      color:
+                        this.state.tasks_for_level_up <= 1
+                          ? "lightgrey"
+                          : "black",
+                    }}
+                  />
                 </div>
               </div>
             </Col>
@@ -426,7 +443,7 @@ const Header = ({ setPage }) => {
             style={{ backgroundColor: "transparent", border: "transparent" }}
             onClick={() => setPage(TASK_PAGE)}
           >
-            <ImCross size={30} id="fp-icon"/>
+            <ImCross size={30} id="fp-icon" />
           </Button>
         </Col>
         <Col xs={8} style={{ textAlign: "center" }}>
