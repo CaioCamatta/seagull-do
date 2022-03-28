@@ -8,7 +8,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { GrAddCircle } from "react-icons/gr";
+import { MdAddCircleOutline } from "react-icons/md";
 import { ImCheckmark, ImCross } from "react-icons/im";
 import { IoTrashBin } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
@@ -63,7 +63,8 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
           onClick={handleShow}
           style={{ backgroundColor: "transparent", border: "transparent" }}
         >
-          <GrAddCircle size={40} />
+         
+          <MdAddCircleOutline size={40} id="fp-icon"  />
         </Button>
       )}
       {mode === EDIT && (

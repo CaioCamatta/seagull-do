@@ -20,7 +20,8 @@ import {
 import seagull from "../images/main-seagull.png";
 import { ImCross } from "react-icons/im";
 import { SETTINGS_PAGE, TASK_PAGE } from "../App";
-
+//For Darkseid
+import "../style/darkMode.css";
 // Settings Component
 export default class Settings extends React.Component {
   constructor(props) {
@@ -87,12 +88,30 @@ export default class Settings extends React.Component {
     audio.play();
   }
 
+  setDark = () => {
+
+      localStorage.setItem("theme", "dark");
+  }
+
+  setLight = () => {
+      localStorage.setItem("theme", "light");
+  }
+  setTheme = () => {
+    var theme = localStorage.getItem("theme");
+    document.documentElement.setAttribute("data-theme", theme);
+  }
   // Functions for modifying the settings based on user input.
   toggleDarkMode() {
     this.setState(
       (prevState) => ({ dark_mode: !prevState.dark_mode }),
       () => this.saveSettings()
     );
+    if (!this.state.dark_mode){
+      this.setDark();
+    }
+    else{
+      this.setLight();
+    }
   }
 
   setWeekStartsOn(day) {
@@ -140,8 +159,10 @@ export default class Settings extends React.Component {
     );
   }
 
+  
   // Render settings.
   render() {
+    this.setTheme();
     return (
       <div>
         <Header setPage={this.props.setPage} />
@@ -405,7 +426,7 @@ const Header = ({ setPage }) => {
             style={{ backgroundColor: "transparent", border: "transparent" }}
             onClick={() => setPage(TASK_PAGE)}
           >
-            <ImCross size={30} color="black" />
+            <ImCross size={30} id="fp-icon"/>
           </Button>
         </Col>
         <Col xs={8} style={{ textAlign: "center" }}>

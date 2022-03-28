@@ -4,6 +4,12 @@ import Button from "react-bootstrap/Button";
 import TaskPage from "./components/TaskPage";
 import { data } from "./components/TempData";
 import Settings from "./components/settings";
+
+//For Darkseid
+import "./style/darkMode.css";
+
+
+
 // Pages for conditional rendering
 export const TASK_PAGE = "TASK_PAGE";
 export const SETTINGS_PAGE = "SETTINGS_PAGE";

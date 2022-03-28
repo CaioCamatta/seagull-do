@@ -34,12 +34,13 @@ const AddFolder = ({ addFolder }) => {
   };
 
   return (
+    
     <>
       <Button
         onClick={handleShow}
         style={{ backgroundColor: "transparent", border: "transparent" }}
       >
-        <FiFolderPlus size={40} color="black" />
+        <FiFolderPlus size={40} id="fp-icon" />
       </Button>
 
       <Modal show={show} onHide={handleClose} fullscreen>
