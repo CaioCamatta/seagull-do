@@ -11,6 +11,7 @@ import Task from "./Task";
 import AddTodo, { EDIT } from "./AddTodo";
 import { IoTrashBin } from "react-icons/io5";
 import { Button } from "react-bootstrap";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Folder(props) {
   let [openDropdown, setOpenDropdown] = useState(false);
@@ -37,78 +38,104 @@ export default function Folder(props) {
   };
 
   return (
-    <div>
-      <div className="d-flex justify-content-between align-items-center">
-        <div
-          className="d-flex align-items-center"
-          onClick={() => {
-            setOpenDropdown(!openDropdown);
-          }}
-        >
-          {!openDropdown ? (
-            props.folder?.colorCode ? (
-              <FaFolder
+    <AnimatePresence inital={false}>
+      <div>
+        <div className="d-flex justify-content-between align-items-center">
+          <div
+            className="d-flex align-items-center"
+            onClick={() => {
+              setOpenDropdown(!openDropdown);
+            }}
+          >
+            {!openDropdown ? (
+              props.folder?.colorCode ? (
+                <FaFolder
+                  size={40}
+                  style={{ marginRight: "17px" }}
+                  color={props.folder?.colorCode}
+                />
+              ) : (
+                <FaRegFolder size={40} style={{ marginRight: "17px" }} />
+              )
+            ) : props.folder?.colorCode ? (
+              <FaFolderOpen
                 size={40}
                 style={{ marginRight: "17px" }}
                 color={props.folder?.colorCode}
               />
             ) : (
-              <FaRegFolder size={40} style={{ marginRight: "17px" }} />
-            )
-          ) : props.folder?.colorCode ? (
-            <FaFolderOpen
-              size={40}
-              style={{ marginRight: "17px" }}
-              color={props.folder?.colorCode}
-            />
-          ) : (
-            <FaRegFolderOpen size={40} style={{ marginRight: "17px" }} />
-          )}
+              <FaRegFolderOpen size={40} style={{ marginRight: "17px" }} />
+            )}
 
-          <span style={{ fontSize: "24px" }}>
-            {props.folder?.name} ({props.folder.tasks ? count : 0})
-          </span>
+            <span style={{ fontSize: "24px" }}>
+              {props.folder?.name} ({props.folder.tasks ? count : 0})
+            </span>
+          </div>
+          <div>
+            {openDropdown && (
+              <motion.section
+                key="content"
+                initial="collapsed"
+                animate="open"
+                exit="collapsed"
+                variants={{
+                  open: { opacity: 1, height: "auto" },
+                  collapsed: { opacity: 0, height: 0 },
+                }}
+                transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
+              >
+                <Button
+                  style={{
+                    backgroundColor: "transparent",
+                    border: "transparent",
+                    padding: 0,
+                    margin: 0,
+                    color: props.folder?.colorCode || "red",
+                    fontSize: 24,
+                  }}
+                  onClick={() => handleDelete()}
+                >
+                  <IoTrashBin />
+                </Button>
+              </motion.section>
+            )}
+          </div>
         </div>
-        <div>
-          {openDropdown && (
-            <Button
-              style={{
-                backgroundColor: "transparent",
-                border: "transparent",
-                padding: 0,
-                margin: 0,
-                color: props.folder?.colorCode || "red",
-                fontSize: 24,
+        {openDropdown ? (
+          <div style={{ marginLeft: "25px" }}>
+            <motion.section
+              key="content"
+              initial="collapsed"
+              animate="open"
+              exit="collapsed"
+              variants={{
+                open: { opacity: 1, height: "auto" },
+                collapsed: { opacity: 0, height: 0 },
               }}
-              onClick={() => handleDelete()}
+              transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
             >
-              <IoTrashBin />
-            </Button>
-          )}
-        </div>
-      </div>
-      {openDropdown ? (
-        <div style={{ marginLeft: "25px" }}>
-          {props.folder?.tasks?.map((task, index) => {
-            if (!task.completed)
-              return (
-                <Task
-                  key={index}
-                  task={task}
-                  editTask={
-                    <AddTodo
-                      folders={props.folders}
-                      mode={EDIT}
-                      editTask={props.editTask}
-                      existingTodo={task}
+              {props.folder?.tasks?.map((task, index) => {
+                if (!task.completed)
+                  return (
+                    <Task
+                      key={index}
+                      task={task}
+                      editTask={
+                        <AddTodo
+                          folders={props.folders}
+                          mode={EDIT}
+                          editTask={props.editTask}
+                          existingTodo={task}
+                        />
+                      }
+                      editTaskFunction={props.editTaskFunction}
                     />
-                  }
-                  editTaskFunction={props.editTaskFunction}
-                />
-              );
-          })}
-        </div>
-      ) : null}
-    </div>
+                  );
+              })}
+            </motion.section>
+          </div>
+        ) : null}
+      </div>
+    </AnimatePresence>
   );
 }
