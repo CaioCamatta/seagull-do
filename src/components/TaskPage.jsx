@@ -20,7 +20,20 @@ import seagull from "../images/main-seagull.png";
 import { SETTINGS_PAGE } from "../App";
 import ReactTooltip from "react-tooltip";
 
+
+//For Darkseid
+import "../style/darkMode.css";
+
+//dark mode stuff
+const setTheme = () => {
+  var theme = localStorage.getItem("theme");
+  document.documentElement.setAttribute("data-theme", theme);
+}
 export default function TaskPage(props) {
+
+  setTheme();
+
+
   // Formatted data from local storage to make mapping easier
   let [taskData, setTaskData] = useState(null);
 
@@ -242,7 +255,7 @@ const Header = ({ setPage }) => {
         <Col xs={1}>
           <BsFillGearFill
             className="mt-1"
-            color="black"
+            id="fp-icon"
             onClick={() => setPage(SETTINGS_PAGE)}
             size={30}
           />
@@ -250,7 +263,7 @@ const Header = ({ setPage }) => {
         <Col xs={2}>
           <AiOutlineInfoCircle
             className="mt-1"
-            color="black"
+            id="fp-icon"
             size={30}
             data-tip={tooltip_info}
             data-for="info-tooltip"
@@ -276,7 +289,7 @@ const Header = ({ setPage }) => {
 
 const Footer = ({ addFolder, addTask, folders }) => {
   return (
-    <Navbar fixed="bottom" style={{ backgroundColor: "white" }}>
+    <Navbar fixed="bottom">
       <Row
         style={{ width: "100%", padding: 0, paddingLeft: 25, paddingRight: 25 }}
       >
