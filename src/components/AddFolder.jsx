@@ -12,7 +12,8 @@ import { GrAddCircle } from "react-icons/gr";
 import { ImCheckmark, ImCross } from "react-icons/im";
 import { FiFolderPlus } from "react-icons/fi";
 import FolderColorSelect from "./FolderColorSelect";
-
+//For Darkseid
+import "../style/darkMode.css";
 const AddFolder = ({ addFolder }) => {
   const [show, setShow] = useState(false);
 
@@ -33,9 +34,11 @@ const AddFolder = ({ addFolder }) => {
     handleClose();
   };
 
+
   return (
     
     <>
+
       <Button
         onClick={handleShow}
         style={{ backgroundColor: "transparent", border: "transparent" }}
@@ -43,11 +46,11 @@ const AddFolder = ({ addFolder }) => {
         <FiFolderPlus size={40} id="fp-icon" />
       </Button>
 
-      <Modal show={show} onHide={handleClose} fullscreen>
-        <Modal.Header>
+      <Modal show={show} onHide={handleClose} fullscreen id="dark-modal">
+        <Modal.Header id="dark-modal">
           <Modal.Title>Add Folder</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body id="dark-modal">
           <Form>
             <Form.Group className="mb-3">
               <Form.Control
@@ -64,7 +67,7 @@ const AddFolder = ({ addFolder }) => {
             </InputGroup>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer id="dark-modal">
           <Row style={{ width: "100%", padding: 0 }}>
             <Col xs={2}>
               <Button
@@ -76,7 +79,7 @@ const AddFolder = ({ addFolder }) => {
                   margin: 0,
                 }}
               >
-                <ImCross size={40} color="black" />
+                <ImCross size={40} id="fp-icon" />
               </Button>
             </Col>
             <Col xs={8} />
@@ -90,7 +93,7 @@ const AddFolder = ({ addFolder }) => {
                   margin: 0,
                 }}
               >
-                <ImCheckmark size={40} color="black" />
+                <ImCheckmark size={40} id="fp-icon" />
               </Button>
             </Col>
           </Row>

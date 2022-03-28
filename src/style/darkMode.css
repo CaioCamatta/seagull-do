@@ -17,3 +17,8 @@ body {
     color: var(--font-color);
     stroke: var(--font-color);
 }
+
+#dark-modal{
+    color: var(--font-color);
+    background-color: var(--background-color);
+}

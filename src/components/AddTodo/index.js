@@ -14,7 +14,8 @@ import { IoTrashBin } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
 import TodoFolderSelect from "./TodoFolderSelect";
 import TodoPrioritySelect from "./TodoPrioritySelect";
-
+//For Darkseid
+import "../../style/darkMode.css";
 export const EDIT = "EDIT";
 export const CREATE = "CREATE";
 
@@ -83,7 +84,7 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
       )}
 
       <Modal show={show} onHide={handleClose} fullscreen>
-        <Modal.Header>
+        <Modal.Header id="dark-modal">
           <Modal.Title>{mode === CREATE ? "Add" : "Edit"} Todo</Modal.Title>
           <Button
             style={{
@@ -99,7 +100,7 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
             <IoTrashBin />
           </Button>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body id="dark-modal">
           <Form>
             <Form.Group className="mb-3">
               <Form.Control
@@ -154,7 +155,7 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
             </InputGroup>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer id="dark-modal">
           <Row style={{ width: "100%", padding: 0 }}>
             <Col xs={2}>
               <Button
@@ -166,7 +167,7 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
                   margin: 0,
                 }}
               >
-                <ImCross size={40} color="black" />
+                <ImCross size={40} id="fp-icon" />
               </Button>
             </Col>
             <Col xs={8} />
@@ -180,7 +181,7 @@ const AddTodo = ({ addTask, editTask, folders, mode, existingTodo }) => {
                   margin: 0,
                 }}
               >
-                <ImCheckmark size={40} color="black" />
+                <ImCheckmark size={40} id="fp-icon" />
               </Button>
             </Col>
           </Row>
