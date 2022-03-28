@@ -6,7 +6,7 @@ import seagull3 from "../images/seagull3.png";
 import seagull4 from "../images/seagull4.png";
 import seagull5 from "../images/seagull5.png";
 import mainSeagullImage from "../images/main-seagull.png";
-
+import "../style/darkMode.css";
 function SetSeagull(props) {
   if (!props.lv || props.lv === 0) {
     return (
@@ -77,8 +77,9 @@ const SeagullInfo = ({ tasksCompleted, settings }) => {
         onHide={handleClose}
         style={{ textAlign: "center", border: "none", top: "20%" }}
         class="justify-content-center"
+        id="dark-modal"
       >
-        <Modal.Body style={{ border: "none" }}>
+        <Modal.Body id="dark-modal" style={{ border: "none"}}>
           {seagull}
           <h2 style={{ paddingTop: "0.5em" }}>Level {level}</h2>
           <p>Tasks Completed: {tasksCompleted}</p>
