@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Modal from "react-bootstrap/Modal";
 import seagull1 from "../images/seagull1.png";
 import seagull2 from "../images/seagull2.png";
