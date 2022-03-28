@@ -61,7 +61,7 @@ const SeagullInfo = ({ tasksCompleted, settings }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
-  const { tasks_for_level_up } = settings;
+  const tasks_for_level_up = settings?.tasks_for_level_up;
   const level = Math.round(tasksCompleted / tasks_for_level_up);
 
   var seagull = <SetSeagull lv={level} />;
