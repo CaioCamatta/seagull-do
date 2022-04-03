@@ -302,6 +302,15 @@ export default class Settings extends React.Component {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
+                    <Dropdown.Item
+                    onClick={() => this.setSeagullIcon("main-seagull.png")}
+                  >
+                    Main Seagull &nbsp;&nbsp;&nbsp;
+                    <img
+                      className="seagull-icon"
+                      src={require("../images/main-seagull.png")}
+                    />
+                  </Dropdown.Item>
                   <Dropdown.Item
                     onClick={() => this.setSeagullIcon("seagull1.png")}
                   >
